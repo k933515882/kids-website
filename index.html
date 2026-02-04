@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎈 小朋友天地</title>
+    <title>🎈 小朋友天地 - 快樂學認知</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -48,7 +48,7 @@
         .category {
             background: #fff;
             border-radius: 24px;
-            padding: 30px;
+            padding: 25px 15px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -65,24 +65,23 @@
         }
         
         .category-icon {
-            font-size: clamp(60px, 15vw, 100px);
-            margin-bottom: 15px;
+            font-size: clamp(50px, 12vw, 90px);
+            margin-bottom: 12px;
             display: block;
         }
         
         .category h2 {
-            font-size: clamp(24px, 5vw, 36px);
+            font-size: clamp(20px, 4vw, 30px);
             color: #333;
             font-weight: 700;
         }
         
         .category p {
-            font-size: clamp(14px, 3vw, 20px);
+            font-size: clamp(12px, 2.5vw, 18px);
             color: #888;
-            margin-top: 8px;
+            margin-top: 6px;
         }
         
-        /* Animal Colors */
         .category:nth-child(1) { background: linear-gradient(135deg, #FFE5B4, #FFD700); }
         .category:nth-child(2) { background: linear-gradient(135deg, #E5FFE5, #90EE90); }
         .category:nth-child(3) { background: linear-gradient(135deg, #E5F0FF, #87CEEB); }
@@ -98,11 +97,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             z-index: 1000;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            overflow-y: auto;
+            padding: 20px;
         }
         
         .modal.active {
@@ -110,32 +111,21 @@
             animation: fadeIn 0.3s ease;
         }
         
-        .modal-content {
-            text-align: center;
-            padding: 40px;
-        }
-        
-        .modal-emoji {
-            font-size: clamp(100px, 25vw, 200px);
-            animation: bounce 1s ease infinite;
-            cursor: pointer;
-        }
-        
-        .modal-emoji:active {
-            transform: scale(0.9);
-        }
-        
-        .modal-name {
-            font-size: clamp(36px, 8vw, 64px);
+        .modal-header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
             color: #fff;
-            margin-top: 20px;
-            font-weight: 700;
+            font-size: clamp(18px, 4vw, 28px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .modal-close {
             position: fixed;
-            top: 30px;
-            right: 30px;
+            top: 20px;
+            right: 20px;
             font-size: 40px;
             color: #fff;
             cursor: pointer;
@@ -146,6 +136,124 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 1001;
+        }
+        
+        .modal-content {
+            text-align: center;
+            padding: 80px 20px 40px;
+            max-width: 600px;
+        }
+        
+        .modal-emoji {
+            font-size: clamp(120px, 30vw, 250px);
+            animation: bounce 1s ease infinite;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        .modal-emoji:active {
+            transform: scale(0.9);
+        }
+        
+        .modal-name {
+            font-size: clamp(40px, 10vw, 72px);
+            color: #fff;
+            margin: 20px 0;
+            font-weight: 700;
+        }
+        
+        .modal-lesson {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .modal-lesson p {
+            font-size: clamp(16px, 3.5vw, 24px);
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        .modal-sound-btn {
+            background: linear-gradient(135deg, #FFD93D, #FF6B6B);
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: clamp(18px, 4vw, 28px);
+            color: #fff;
+            cursor: pointer;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .modal-sound-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Navigation arrows */
+        .nav-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 60px;
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            padding: 20px;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        .nav-arrow:hover {
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .nav-arrow:active {
+            transform: translateY(-50%) scale(0.9);
+        }
+        
+        .nav-left { left: 10px; }
+        .nav-right { right: 10px; }
+        
+        /* Dots indicator */
+        .dots {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+        }
+        
+        .dot.active {
+            background: #FFD93D;
+            transform: scale(1.2);
+        }
+        
+        /* Counter */
+        .counter {
+            position: fixed;
+            bottom: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.2);
+            padding: 10px 25px;
+            border-radius: 30px;
+            color: #fff;
+            font-size: clamp(16px, 3.5vw, 24px);
         }
         
         /* Footer */
@@ -166,146 +274,272 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <h1>🎈 小朋友天地</h1>
-        <p>點一點，玩一玩！</p>
+        <p>👶 2-3歲 快樂學認知 👶</p>
     </header>
     
     <div class="categories">
-        <div class="category" onclick="showModal(0, 0)">
+        <div class="category" onclick="showCategory(0)">
             <span class="category-icon">🦁</span>
-            <h2>動物</h2>
-            <p>汪汪！喵喵！</p>
+            <h2>🐾 動物</h2>
+            <p>認識動物和叫聲</p>
         </div>
         
-        <div class="category" onclick="showModal(1, 0)">
+        <div class="category" onclick="showCategory(1)">
             <span class="category-icon">🔢</span>
-            <h2>數字</h2>
-            <p>1、2、3、4、5</p>
+            <h2>📚 數字</h2>
+            <p>從1數到10</p>
         </div>
         
-        <div class="category" onclick="showModal(2, 0)">
+        <div class="category" onclick="showCategory(2)">
             <span class="category-icon">🌈</span>
-            <h2>顏色</h2>
-            <p>紅、藍、綠、黃</p>
+            <h2>🎨 顏色</h2>
+            <p>認識紅橙黃綠藍紫</p>
         </div>
         
-        <div class="category" onclick="showModal(3, 0)">
+        <div class="category" onclick="showCategory(3)">
             <span class="category-icon">⭐</span>
-            <h2>形狀</h2>
-            <p>圓形、正方形</p>
+            <h2>📐 形狀</h2>
+            <p>圓形方形三角形</p>
         </div>
         
-        <div class="category" onclick="showModal(4, 0)">
+        <div class="category" onclick="showCategory(4)">
             <span class="category-icon">🍎</span>
-            <h2>水果</h2>
-            <p>蘋果、香蕉、葡萄</p>
+            <h2>🍇 水果</h2>
+            <p>好吃的水果</p>
         </div>
         
-        <div class="category" onclick="showModal(5, 0)">
+        <div class="category" onclick="showCategory(5)">
             <span class="category-icon">🎵</span>
-            <h2>兒歌</h2>
-            <p>小星星、兩隻老虎</p>
+            <h2>🎶 兒歌</h2>
+            <p>好聽的兒歌</p>
         </div>
     </div>
     
     <footer class="footer">
-        <p>👶 適合 2-3 歲小朋友 👶</p>
+        <p>👨‍👩‍👧 爸爸媽媽一起玩 👨‍👩‍👧</p>
     </footer>
     
     <!-- Modal -->
-    <div class="modal" id="modal" onclick="closeModal()">
-        <div class="modal-close">✕</div>
+    <div class="modal" id="modal" onclick="handleModalClick(event)">
+        <div class="modal-close" onclick="closeModal(); event.stopPropagation();">✕</div>
+        
+        <div class="modal-header" id="modalHeader">🐾 動物</div>
+        
+        <div class="nav-arrow nav-left" onclick="prevItem(); event.stopPropagation();">◀</div>
+        
         <div class="modal-content">
-            <div class="modal-emoji" id="modalEmoji">🦁</div>
+            <div class="modal-emoji" id="modalEmoji" onclick="speakAndAnimate()">🦁</div>
             <div class="modal-name" id="modalName">獅子</div>
+            
+            <div class="modal-lesson" id="modalLesson">
+                <p>🦁 獅子是大森林裡的王！<br>牠會發出「吼～吼～吼」的聲音！<br><br>👆 點一下圖案聽聲音！</p>
+            </div>
+            
+            <button class="modal-sound-btn" onclick="speakCurrent(); event.stopPropagation();">
+                🔊 聽聲音
+            </button>
         </div>
+        
+        <div class="nav-arrow nav-right" onclick="nextItem(); event.stopPropagation();">▶</div>
+        
+        <div class="counter" id="counter">1 / 8</div>
+        
+        <div class="dots" id="dots"></div>
     </div>
     
     <script>
         const data = {
             animals: [
-                { emoji: '🦁', name: '獅子' },
-                { emoji: '🐯', name: '老虎' },
-                { emoji: '🐘', name: '大象' },
-                { emoji: '🐵', name: '猴子' },
-                { emoji: '🐶', name: '小狗' },
-                { emoji: '🐱', name: '小貓' },
-                { emoji: '🐰', name: '兔子' },
-                { emoji: '🐼', name: '熊貓' }
+                { emoji: '🦁', name: '獅子', sound: '吼～吼～吼～我是森林之王！', lesson: '🦁 獅子是森林裡的王！牠有帥氣的鬃毛，會發出「吼～吼」的聲音！', fact: '獅子一天睡20小時！' },
+                { emoji: '🐯', name: '老虎', sound: '嗷嗚～我是老虎！', lesson: '🐯 老虎身上有條紋！牠是森林裡最厲害的獵手！', fact: '每隻老虎的條紋都不一樣！' },
+                { emoji: '🐘', name: '大象', sound: '嗚～嗚～嗚～我是大象！', lesson: '🐘 大象有長長的鼻子！牠是陸地上最大的動物！', fact: '大象的鼻子有4萬塊肌肉！' },
+                { emoji: '🐵', name: '猴子', sound: '嘰嘰嘰嘰～我是猴子！', lesson: '🐵 猴子喜歡爬樹！牠們有一條長長的尾巴！', fact: '猴子可以抓蝨子吃！' },
+                { emoji: '🐶', name: '小狗', sound: '汪汪汪～我是小狗！', lesson: '🐶 小狗是人類最好的朋友！牠會說「汪汪」！', fact: '小狗的鼻子是濕濕的！' },
+                { emoji: '🐱', name: '小貓', sound: '喵喵喵～我是小貓！', lesson: '🐱 小貓喜歡吃魚！牠會發出「喵喵」的聲音！', fact: '小貓一天睡16小時！' },
+                { emoji: '🐰', name: '兔子', sound: '蹦蹦跳～我是兔子！', lesson: '🐰 兔子有長長的耳朵！牠跳得非常高！', fact: '兔子的牙齒一直在長！' },
+                { emoji: '🐼', name: '熊貓', sound: '咻咻～我是熊貓！', lesson: '🐼 熊貓最愛吃竹子！牠是黑白色的！', fact: '熊貓一天吃30公斤竹子！' }
             ],
             numbers: [
-                { emoji: '1️⃣', name: '一' },
-                { emoji: '2️⃣', name: '二' },
-                { emoji: '3️⃣', name: '三' },
-                { emoji: '4️⃣', name: '四' },
-                { emoji: '5️⃣', name: '五' },
-                { emoji: '6️⃣', name: '六' },
-                { emoji: '7️⃣', name: '七' },
-                { emoji: '8️⃣', name: '八' },
-                { emoji: '9️⃣', name: '九' },
-                { emoji: '🔟', name: '十' }
+                { emoji: '1️⃣', name: '一', sound: '一！一顆糖果！', lesson: '🔢 數字1！就像一根棒棒糖！👶 跟著唸：「一」', fact: '1是最小的數字！' },
+                { emoji: '2️⃣', name: '二', sound: '二！兩隻小鴨！', lesson: '🔢 數字2！就像一隻小鴨！👶 跟著唸：「二」', fact: '2是一雙！' },
+                { emoji: '3️⃣', name: '三', sound: '三！三顆星星！', lesson: '🔢 數字3！就像一顆星星！👶 跟著唸：「三」', fact: '三角形有3個角！' },
+                { emoji: '4️⃣', name: '四', sound: '四！四瓣花朵！', lesson: '🔢 數字4！就像一朵小花！👶 跟著唸：「四」', fact: '4是2+2！' },
+                { emoji: '5️⃣', name: '五', sound: '五！五根手指！', lesson: '🔢 數字5！就像一隻手！👶 跟著唸：「五」', fact: '每隻手有5根手指！' },
+                { emoji: '6️⃣', name: '六', sound: '六！六顆汽球！', lesson: '🔢 數字6！就像一顆氣球！👶 跟著唸：「六」', fact: '6顛倒過來是9！' },
+                { emoji: '7️⃣', name: '七', sound: '七！七色彩虹！', lesson: '🔢 數字7！就像一道彩虹！👶 跟著唸：「七」', fact: '彩虹有7種顏色！' },
+                { emoji: '8️⃣', name: '八', sound: '八！八角冰棒！', lesson: '🔢 數字8！就像一顆冰棒！👶 跟著唸：「八」', fact: '8是2+2+2+2！' },
+                { emoji: '9️⃣', name: '九', sound: '九！九顆氣球！', lesson: '🔢 數字9！就像一顆氣球！👶 跟著唸：「九」', fact: '9是3+3+3！' },
+                { emoji: '🔟', name: '十', sound: '十！十根蠟燭！', lesson: '🔢 數字10！就像一根蠟燭！👶 跟著唸：「十」', fact: '10是9+1！' }
             ],
             colors: [
-                { emoji: '🔴', name: '紅色' },
-                { emoji: '🔵', name: '藍色' },
-                { emoji: '🟢', name: '綠色' },
-                { emoji: '🟡', name: '黃色' },
-                { emoji: '🟠', name: '橙色' },
-                { emoji: '🟣', name: '紫色' }
+                { emoji: '🔴', name: '紅色', sound: '紅色！紅咚咚的蘋果！', lesson: '🎨 紅色！蘋果是紅色的！👶 說說看：「紅色」', fact: '紅色讓人覺得開心！' },
+                { emoji: '🔵', name: '藍色', sound: '藍色！藍藍的天空！', lesson: '🎨 藍色！天空是藍色的！👶 說說看：「藍色」', fact: '海洋也是藍色的！' },
+                { emoji: '🟢', name: '綠色', sound: '綠色！綠油油的草地！', lesson: '🎨 綠色！草是綠色的！👶 說說看：「綠色」', fact: '綠色代表生命！' },
+                { emoji: '🟡', name: '黃色', sound: '黃色！黃澄澄的香蕉！', lesson: '🎨 黃色！香蕉是黃色的！👶 說說看：「黃色」', fact: '太陽是黃色的！' },
+                { emoji: '🟠', name: '橙色', sound: '橙色！橘子是橙色的！', lesson: '🎨 橙色！橘子和胡蘿蔔是橙色的！👶 說說看：「橙色」', fact: '橙色是紅+黃！' },
+                { emoji: '🟣', name: '紫色', sound: '紫色！紫紫的葡萄！', lesson: '🎨 紫色！葡萄是紫色的！👶 說說看：「紫色」', fact: '紫色是紅+藍！' }
             ],
             shapes: [
-                { emoji: '⭕', name: '圓形' },
-                { emoji: '🟥', name: '正方形' },
-                { emoji: '🔺', name: '三角形' },
-                { emoji: '⭐', name: '星星' },
-                { emoji: '💟', name: '愛心' }
+                { emoji: '⭕', name: '圓形', sound: '圓形！像太陽一樣圓！', lesson: '📐 圓形！球是圓形的！👶 用手畫畫看！', fact: '圓形沒有角！' },
+                { emoji: '🟥', name: '正方形', sound: '正方形！像盒子一樣方！', lesson: '📐 正方形！電視是方形的！👶 用手畫畫看！', fact: '正方形有4個角！' },
+                { emoji: '🔺', name: '三角形', sound: '三角形！像屋頂一樣尖！', lesson: '📐 三角形！金字塔是三角形的！👶 用手畫畫看！', fact: '三角形有3個角！' },
+                { emoji: '⭐', name: '星星', sound: '星星！晚上會閃閃發光！', lesson: '⭐ 星星！晚上天上有很多星星！👶 許個願望吧！', fact: '星星離我們很遠！' },
+                { emoji: '💟', name: '愛心', sound: '愛心！這是愛！', lesson: '💗 愛心！爸爸媽媽愛你！👶 把愛心送給爸爸媽媽！', fact: '愛心代表愛！' }
             ],
             fruits: [
-                { emoji: '🍎', name: '蘋果' },
-                { emoji: '🍌', name: '香蕉' },
-                { emoji: '🍇', name: '葡萄' },
-                { emoji: '🍊', name: '橘子' },
-                { emoji: '🍓', name: '草莓' },
-                { emoji: '🍉', name: '西瓜' }
+                { emoji: '🍎', name: '蘋果', sound: '蘋果！紅咚咚的蘋果！', lesson: '🍎 蘋果！一天一蘋果，醫生遠離我！', fact: '蘋果有很多種顏色！' },
+                { emoji: '🍌', name: '香蕉', sound: '香蕉！彎彎的香蕉！', lesson: '🍌 香蕉！猴子最愛吃香蕉！', fact: '香蕉長在樹上！' },
+                { emoji: '🍇', name: '葡萄', sound: '葡萄！紫紫甜甜的葡萄！', lesson: '🍇 葡萄！葡萄是一顆一顆的！', fact: '葡萄可以做成果汁！' },
+                { emoji: '🍊', name: '橘子', sound: '橘子！酸酸甜甜的橘子！', lesson: '🍊 橘子！橘子皮可以做精油！', fact: '橘子是橙色的！' },
+                { emoji: '🍓', name: '草莓', sound: '草莓！紅紅的草莓！', lesson: '🍓 草莓！草莓上有小籽！', fact: '草莓是春天的水果！' },
+                { emoji: '🍉', name: '西瓜', sound: '西瓜！大大甜甜的西瓜！', lesson: '🍉 西瓜！夏天吃西瓜最涼爽！', fact: '西瓜大部分是水！' }
             ],
             songs: [
-                { emoji: '⭐', name: '小星星' },
-                { emoji: '🐯', name: '兩隻老虎' },
-                { emoji: '🔄', name: '小星星' },
-                { emoji: '🐣', name: '小雞叫' }
+                { emoji: '⭐', name: '小星星', sound: '一閃一閃亮晶晶！', lesson: '⭐ 【小星星】<br>一閃一閃亮晶晶，<br>滿天都是小星星！', fact: '✨ 跟著唱：<br>「一閃一閃亮晶晶」' },
+                { emoji: '🐯', name: '兩隻老虎', sound: '兩隻老虎跑得快！', lesson: '🐯 【兩隻老虎】<br>兩隻老虎，兩隻老虎，<br>跑得快，跑得快，<br>一隻沒有耳朵，<br>一隻沒有尾巴，<br>真奇怪！真奇怪！', fact: '🐯 唱給爸媽聽！' },
+                { emoji: '🎵', name: '小星星', sound: '天上星星眨眼睛！', lesson: '⭐ 【小星星】<br>天上星星眨眼睛，<br>地上娃娃笑盈盈！', fact: '🌙 晚上看星星！' },
+                { emoji: '🐣', name: '小雞叫', sound: '小小雞嘰嘰嘰！', lesson: '🐣 【小雞叫】<br>小小雞嘰嘰嘰，<br>跟在媽媽後面跑！', fact: '🐥 小雞吃米！' }
             ]
         };
+        
+        const categoryNames = ['🐾 動物', '📚 數字', '🎨 顏色', '📐 形狀', '🍎 水果', '🎶 兒歌'];
+        const categoryKeys = ['animals', 'numbers', 'colors', 'shapes', 'fruits', 'songs'];
         
         let currentCategory = 0;
         let currentIndex = 0;
         
-        function showModal(category, index) {
+        function initDots() {
+            const dotsContainer = document.getElementById('dots');
+            dotsContainer.innerHTML = '';
+            const items = data[categoryKeys[currentCategory]];
+            items.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                dot.onclick = (e) => {
+                    e.stopPropagation();
+                    goToIndex(i);
+                };
+                dotsContainer.appendChild(dot);
+            });
+        }
+        
+        function showCategory(category) {
             currentCategory = category;
-            currentIndex = index;
+            currentIndex = 0;
+            initDots();
+            updateModal();
+            document.getElementById('modal').classList.add('active');
+            speakCurrent();
+        }
+        
+        function updateModal() {
+            const items = data[categoryKeys[currentCategory]];
+            const item = items[currentIndex];
             
-            const categories = ['animals', 'numbers', 'colors', 'shapes', 'fruits', 'songs'];
-            const categoryName = ['動物', '數字', '顏色', '形狀', '水果', '兒歌'];
-            
-            const item = data[categories[category]][index];
+            document.getElementById('modalHeader').textContent = categoryNames[currentCategory];
             document.getElementById('modalEmoji').textContent = item.emoji;
             document.getElementById('modalName').textContent = item.name;
-            document.getElementById('modal').classList.add('active');
+            document.getElementById('modalLesson').innerHTML = `<p>${item.lesson}</p>`;
+            document.getElementById('counter').textContent = `${currentIndex + 1} / ${items.length}`;
+            
+            // Update dots
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentIndex);
+            });
+        }
+        
+        function nextItem() {
+            const items = data[categoryKeys[currentCategory]];
+            currentIndex = (currentIndex + 1) % items.length;
+            updateModal();
+            speakCurrent();
+        }
+        
+        function prevItem() {
+            const items = data[categoryKeys[currentCategory]];
+            currentIndex = (currentIndex - 1 + items.length) % items.length;
+            updateModal();
+            speakCurrent();
+        }
+        
+        function goToIndex(index) {
+            currentIndex = index;
+            updateModal();
+            speakCurrent();
         }
         
         function closeModal() {
             document.getElementById('modal').classList.remove('active');
         }
         
-        // Click to next
-        document.getElementById('modal').addEventListener('click', function(e) {
-            if (e.target === this || e.target.classList.contains('modal-content')) {
-                currentIndex = (currentIndex + 1) % data[['animals', 'numbers', 'colors', 'shapes', 'fruits', 'songs'][currentCategory]].length;
-                showModal(currentCategory, currentIndex);
+        function handleModalClick(e) {
+            if (e.target.classList.contains('modal')) {
+                // Click outside content, go to next item
+                nextItem();
             }
+        }
+        
+        function speakCurrent() {
+            const items = data[categoryKeys[currentCategory]];
+            const item = items[currentIndex];
+            speak(`${item.name}！${item.sound}`);
+        }
+        
+        function speakAndAnimate() {
+            const emoji = document.getElementById('modalEmoji');
+            emoji.style.animation = 'pulse 0.5s ease';
+            setTimeout(() => emoji.style.animation = 'bounce 1s ease infinite', 500);
+            speakCurrent();
+        }
+        
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'zh-TW';
+                utterance.rate = 0.8;
+                utterance.pitch = 1.2;
+                
+                // Try to find a Chinese voice
+                const voices = window.speechSynthesis.getVoices();
+                const chineseVoice = voices.find(v => v.lang.includes('zh'));
+                if (chineseVoice) {
+                    utterance.voice = chineseVoice;
+                }
+                
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+        
+        // Load voices
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                // Voices loaded
+            };
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('modal').classList.contains('active')) return;
+            
+            if (e.key === 'ArrowRight') nextItem();
+            if (e.key === 'ArrowLeft') prevItem();
+            if (e.key === 'Escape') closeModal();
         });
     </script>
 </body>
