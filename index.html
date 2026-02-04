@@ -6,71 +6,18 @@
     <title>🎈 小朋友天地 - 快樂學認知</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #FFE5E5 0%, #E5F0FF 50%, #E5FFE5 100%);
-            min-height: 100vh;
-        }
-        .header {
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(180deg, #FFD93D 0%, #FF6B6B 100%);
-            border-radius: 0 0 30px 30px;
-        }
-        .header h1 {
-            font-size: clamp(36px, 8vw, 64px);
-            color: #fff;
-            text-shadow: 3px 3px 0 #FF6B6B;
-            animation: bounce 2s ease infinite;
-        }
-        .header p {
-            font-size: clamp(18px, 4vw, 28px);
-            color: #fff;
-            margin-top: 10px;
-        }
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            padding: 30px 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .category {
-            background: #fff;
-            border-radius: 24px;
-            padding: 25px 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
+        body { font-family: -apple-system, sans-serif; background: linear-gradient(135deg, #FFE5E5, #E5F0FF, #E5FFE5); min-height: 100vh; }
+        .header { text-align: center; padding: 30px 20px; background: linear-gradient(180deg, #FFD93D, #FF6B6B); border-radius: 0 0 30px 30px; }
+        .header h1 { font-size: clamp(36px, 8vw, 64px); color: #fff; text-shadow: 3px 3px 0 #FF6B6B; animation: bounce 2s ease infinite; }
+        .header p { font-size: clamp(18px, 4vw, 28px); color: #fff; margin-top: 10px; }
+        .categories { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 30px 20px; max-width: 900px; margin: 0 auto; }
+        .category { background: #fff; border-radius: 24px; padding: 25px 15px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .category:hover { transform: translateY(-10px); }
         .category:active { transform: scale(0.95); }
-        .category-icon {
-            font-size: clamp(50px, 12vw, 90px);
-            margin-bottom: 12px;
-            display: block;
-        }
-        .category h2 {
-            font-size: clamp(18px, 4vw, 28px);
-            color: #333;
-            font-weight: 700;
-        }
-        .category p {
-            font-size: clamp(12px, 2.5vw, 18px);
-            color: #888;
-            margin-top: 6px;
-        }
-        .category-count {
-            background: #f0f0f0;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            color: #666;
-            margin-top: 10px;
-            display: inline-block;
-        }
+        .category-icon { font-size: clamp(50px, 12vw, 90px); margin-bottom: 12px; display: block; }
+        .category h2 { font-size: clamp(18px, 4vw, 28px); color: #333; font-weight: 700; }
+        .category p { font-size: clamp(12px, 2.5vw, 18px); color: #888; margin-top: 6px; }
+        .category-count { background: #f0f0f0; padding: 5px 15px; border-radius: 20px; font-size: 14px; color: #666; margin-top: 10px; display: inline-block; }
         .category:nth-child(1) { background: linear-gradient(135deg, #FFE5B4, #FFD700); }
         .category:nth-child(2) { background: linear-gradient(135deg, #E5FFE5, #90EE90); }
         .category:nth-child(3) { background: linear-gradient(135deg, #E5F0FF, #87CEEB); }
@@ -78,176 +25,32 @@
         .category:nth-child(5) { background: linear-gradient(135deg, #F5E5FF, #DDA0DD); }
         .category:nth-child(6) { background: linear-gradient(135deg, #FFE5D4, #FFA07A); }
         
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            overflow-y: auto;
-            padding: 20px;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; overflow-y: auto; padding: 20px; }
         .modal.active { display: flex; animation: fadeIn 0.3s ease; }
-        .modal-header {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: #fff;
-            font-size: clamp(18px, 4vw, 28px);
-        }
-        .modal-close {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-size: 40px;
-            color: #fff;
-            cursor: pointer;
-            background: rgba(255,255,255,0.2);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            text-align: center;
-            padding: 80px 20px 40px;
-            max-width: 700px;
-        }
-        .modal-emoji {
-            font-size: clamp(120px, 30vw, 250px);
-            animation: bounce 1s ease infinite;
-            cursor: pointer;
-        }
-        .modal-name {
-            font-size: clamp(40px, 10vw, 72px);
-            color: #fff;
-            margin: 10px 0;
-            font-weight: 700;
-        }
-        .modal-lesson {
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 25px;
-            margin: 20px 0;
-            text-align: left;
-        }
-        .modal-lesson-title {
-            font-size: clamp(18px, 4vw, 26px);
-            color: #FFD93D;
-            margin-bottom: 15px;
-        }
-        .modal-lesson p {
-            font-size: clamp(16px, 3.5vw, 24px);
-            color: #fff;
-            line-height: 1.8;
-            margin-bottom: 10px;
-        }
-        .modal-fact {
-            background: linear-gradient(135deg, rgba(255,107,107,0.3), rgba(255,217,61,0.3));
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 15px;
-            border-left: 4px solid #FFD93D;
-        }
-        .modal-fact p {
-            font-size: clamp(14px, 3vw, 20px) !important;
-            color: #fff;
-        }
-        .sound-btn-container {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        .modal-sound-btn {
-            background: linear-gradient(135deg, #FFD93D, #FF6B6B);
-            border: none;
-            padding: 18px 35px;
-            border-radius: 50px;
-            font-size: clamp(16px, 3.5vw, 24px);
-            color: #fff;
-            cursor: pointer;
-        }
-        .modal-sound-btn.secondary {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-        }
-        .nav-arrow {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 60px;
-            color: rgba(255,255,255,0.5);
-            cursor: pointer;
-            padding: 20px;
-        }
-        .nav-left { left: 10px; }
-        .nav-right { right: 10px; }
-        .dots {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-        }
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            cursor: pointer;
-        }
+        .modal-header { position: absolute; top: 20px; left: 20px; color: #fff; font-size: clamp(18px, 4vw, 28px); }
+        .modal-close { position: fixed; top: 20px; right: 20px; font-size: 40px; color: #fff; cursor: pointer; background: rgba(255,255,255,0.2); width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+        .modal-content { text-align: center; padding: 80px 20px 40px; max-width: 700px; }
+        .modal-emoji { font-size: clamp(120px, 30vw, 250px); animation: bounce 1s ease infinite; cursor: pointer; }
+        .modal-name { font-size: clamp(40px, 10vw, 72px); color: #fff; margin: 10px 0; font-weight: 700; }
+        .modal-lesson { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 25px; margin: 20px 0; text-align: left; }
+        .modal-lesson-title { font-size: clamp(18px, 4vw, 26px); color: #FFD93D; margin-bottom: 15px; }
+        .modal-lesson p { font-size: clamp(16px, 3.5vw, 24px); color: #fff; line-height: 1.8; margin-bottom: 10px; }
+        .modal-fact { background: linear-gradient(135deg, rgba(255,107,107,0.3), rgba(255,217,61,0.3)); border-radius: 15px; padding: 15px; margin-top: 15px; border-left: 4px solid #FFD93D; }
+        .modal-fact p { font-size: clamp(14px, 3vw, 20px) !important; color: #fff; }
+        .sound-btn-container { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+        .modal-sound-btn { background: linear-gradient(135deg, #FFD93D, #FF6B6B); border: none; padding: 18px 35px; border-radius: 50px; font-size: clamp(16px, 3.5vw, 24px); color: #fff; cursor: pointer; }
+        .modal-sound-btn.secondary { background: linear-gradient(135deg, #4CAF50, #45a049); }
+        .nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); font-size: 60px; color: rgba(255,255,255,0.5); cursor: pointer; padding: 20px; }
+        .nav-left { left: 10px; } .nav-right { right: 10px; }
+        .dots { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; }
         .dot.active { background: #FFD93D; transform: scale(1.3); }
-        .counter {
-            position: fixed;
-            bottom: 140px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255,255,255,0.2);
-            padding: 10px 25px;
-            border-radius: 30px;
-            color: #fff;
-            font-size: clamp(16px, 3.5vw, 24px);
-        }
-        .progress-bar {
-            position: fixed;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 6px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 3px;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #FFD93D, #FF6B6B);
-            border-radius: 3px;
-            transition: width 0.3s ease;
-        }
-        .footer {
-            text-align: center;
-            padding: 30px;
-            color: #888;
-            font-size: clamp(14px, 3vw, 20px);
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        .counter { position: fixed; bottom: 140px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 30px; color: #fff; font-size: clamp(16px, 3.5vw, 24px); }
+        .progress-bar { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); width: 200px; height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #FFD93D, #FF6B6B); border-radius: 3px; transition: width 0.3s ease; }
+        .footer { text-align: center; padding: 30px; color: #888; font-size: clamp(14px, 3vw, 20px); }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -312,104 +115,107 @@
                 <p>🦁 獅子是非洲草原上的「萬獸之王」！</p>
                 <p>🐅 獅子爸爸有帥氣的鬃毛，獅子媽媽負責打獵。</p>
                 <p>👶 獅子寶寶叫「幼獅」，剛出生時身上有斑點。</p>
-                <p>🌍 獅子主要住在非洲，只有少數在印度。</p>
             </div>
             <div class="modal-fact" id="modalFact">
                 <p>💡 小知識：獅子一天可以睡20個小時！</p>
             </div>
             <div class="sound-btn-container">
-                <button class="modal-sound-btn" onclick="speakCurrent(); event.stopPropagation();">
-                    🔊 聽聲音
-                </button>
-                <button class="modal-sound-btn secondary" onclick="speakLesson(); event.stopPropagation();">
-                    📖 聽解說
-                </button>
+                <button class="modal-sound-btn" onclick="speakCurrent(); event.stopPropagation();">🔊 聽聲音</button>
+                <button class="modal-sound-btn secondary" onclick="speakLesson(); event.stopPropagation();">📖 聽解說</button>
             </div>
         </div>
         <div class="nav-arrow nav-right" onclick="nextItem(); event.stopPropagation();">▶</div>
         <div class="counter" id="counter">1 / 16</div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
         <div class="dots" id="dots"></div>
     </div>
     
     <script>
     const data = {
         animals: [
-            { emoji: '🦁', name: '獅子', sound: '吼～吼～吼～我是萬獸之王！', lesson: '獅子是非洲草原上的萬獸之王！獅子爸爸有帥氣的鬃毛，獅子媽媽負責打獵。獅子寶寶叫幼獅，剛出生時身上有斑點。', fact: '獅子一天可以睡20個小時！' },
+            { emoji: '🦁', name: '獅子', sound: '吼～我是萬獸之王！', lesson: '獅子是非洲草原上的萬獸之王！獅子爸爸有帥氣的鬃毛，獅子媽媽負責打獵。', fact: '獅子一天可以睡20個小時！' },
             { emoji: '🐯', name: '老虎', sound: '嗷嗚～我是老虎！', lesson: '老虎是世界上最大的貓科動物！每隻老虎身上的條紋都不同，就像人類的指紋一樣。', fact: '老虎喜歡游泳，是游泳高手！' },
             { emoji: '🐘', name: '大象', sound: '嗚～我是陸地上最大的動物！', lesson: '大象有長長的鼻子，可以喝水、洗澡、拿東西。大象的耳朵很大，可以幫助身體降溫。', fact: '大象的鼻子有4萬塊肌肉！' },
-            { emoji: '🐵', name: '猴子', sound: '嘰嘰嘰～我是聰明的猴子！', lesson: '猴子是靈長類動物，牠們很聰明，會用工具捉蟲子吃。猴子有長長的尾巴，可以保持平衡。', fact: '全世界有超過260種猴子！' },
-            { emoji: '🐼', name: '熊貓', sound: '咻咻～我是可愛的熊貓！', lesson: '熊貓是中國的國寶！牠們最愛吃竹子，一天可以吃30公斤。熊貓黑白相間，圓滾滾的非常可愛。', fact: '熊貓原來是肉食動物，但現在只吃竹子！' },
-            { emoji: '🐻', name: '熊熊', sound: '吼～我是熊熊！', lesson: '熊熊有不同種類：棕熊、北極熊、黑熊。熊熊愛吃蜂蜜、漿果和魚。', fact: '北極熊的毛是透明的，看起來白色是因為光線反射！' },
-            { emoji: '🦊', name: '狐狸', sound: '嗷嗚～我是狐狸！', lesson: '狐狸很聰明，耳朵尖尖的，尾巴毛茸茸。狐狸會挖洞當作家，愛吃老鼠和兔子。', fact: '狐狸的尾巴可以幫助保持平衡和保暖！' },
-            { emoji: '🐰', name: '兔子', sound: '蹦蹦跳～我是小兔子！', lesson: '兔子有長長的耳朵，可以聽到很遠的聲音。兔子後腿很發達，跳得又快又遠。', fact: '兔子的牙齒會一直長，所以要常常咬東西！' },
-            { emoji: '🐮', name: '乳牛', sound: '哞～我是乳牛！', lesson: '乳牛住在農場，牠們提供牛奶給人類喝。黑白相間的乳牛最常見，每天可以產25-40公升牛奶。', fact: '牛有4個胃袋，可以反芻食物！' },
+            { emoji: '🐵', name: '猴子', sound: '嘰嘰嘰～我是猴子！', lesson: '猴子是靈長類動物，牠們很聰明，會用工具捉蟲子吃。猴子有長長的尾巴，可以保持平衡。', fact: '全世界有超過260種猴子！' },
+            { emoji: '🐼', name: '熊貓', sound: '咻咻～我是熊貓！', lesson: '熊貓是中國的國寶！牠們最愛吃竹子，一天可以吃30公斤。', fact: '熊貓原來是肉食動物，但現在只吃竹子！' },
+            { emoji: '🐻', name: '熊熊', sound: '吼～我是熊熊！', lesson: '熊熊有不同種類：棕熊、北極熊、黑熊。熊熊愛吃蜂蜜、漿果和魚。', fact: '北極熊的毛是透明的！' },
+            { emoji: '🦊', name: '狐狸', sound: '嗷嗚～我是狐狸！', lesson: '狐狸很聰明，耳朵尖尖的，尾巴毛茸茸。狐狸會挖洞當作家。', fact: '狐狸的尾巴可以幫助保持平衡！' },
+            { emoji: '🐰', name: '兔子', sound: '蹦蹦跳～我是兔子！', lesson: '兔子有長長的耳朵，可以聽到很遠的聲音。兔子後腿很發達，跳得又快又遠。', fact: '兔子的牙齒會一直長！' },
+            { emoji: '🐮', name: '乳牛', sound: '哞～我是乳牛！', lesson: '乳牛住在農場，牠們提供牛奶給人類喝。黑白相間的乳牛最常見。', fact: '牛有4個胃袋！' },
             { emoji: '🐷', name: '小豬', sound: '哼哼哼～我是小豬！', lesson: '小豬胖嘟嘟的，鼻子圓圓的。豬其實很愛乾淨，會在固定的地方大小便。', fact: '豬的智商比狗還高！' },
-            { emoji: '🐔', name: '母雞', sound: '咯咯咯～我是母雞！', lesson: '母雞會下蛋給我們吃。母雞媽媽會用翅膀保護小雞，太陽下山就會回雞舍睡覺。', fact: '小雞會從蛋裡用嘴巴敲敲敲，掙脫出來！' },
-            { emoji: '🐶', name: '小狗', sound: '汪汪汪～我是人類最好的朋友！', lesson: '小狗是人類最忠心的朋友。狗有很多品種：拉布拉多、貴賓、柯基等。狗會幫主人看家和陪伴。', fact: '小狗的鼻子是濕濕的，這樣才能更好聞味道！' },
+            { emoji: '🐔', name: '母雞', sound: '咯咯咯～我是母雞！', lesson: '母雞會下蛋給我們吃。母雞媽媽會用翅膀保護小雞。', fact: '小雞會從蛋裡敲敲敲出來！' },
+            { emoji: '🐶', name: '小狗', sound: '汪汪汪～我是人類最好的朋友！', lesson: '小狗是人類最忠心的朋友。狗會幫主人看家和陪伴。', fact: '小狗的鼻子是濕濕的！' },
             { emoji: '🐱', name: '小貓', sound: '喵喵喵～我是小貓！', lesson: '小貓是優雅的動物，愛乾淨會自己舔毛。貓咪白天睡覺，晚上精神最好。', fact: '貓咪可以發出100種不同的聲音！' },
             { emoji: '🐴', name: '小馬', sound: '嘶嘶～我是小馬！', lesson: '小馬有4條腿，奔跑速度很快。農場裡的小馬可以幫忙拉車或載人。', fact: '馬站立時也可以睡覺！' },
-            { emoji: '🐑', name: '綿羊', sound: '咩咩咩～我是綿羊！', lesson: '綿羊身上有厚厚的羊毛，可以織成毛衣。綿羊是群居動物，喜歡一起行動。', fact: '綿羊毛會一直長，所以要定期剪毛！' },
-            { emoji: '🦆', name: '小鴨', sound: '嘎嘎嘎～我是小鴨！', lesson: '小鴨有扁扁的嘴巴，愛吃蟲子和水草。小鴨子出生就會游泳，非常可愛。', fact: '小鴨會把第一個看到的動物當成媽媽！' }
+            { emoji: '🐑', name: '綿羊', sound: '咩咩咩～我是綿羊！', lesson: '綿羊身上有厚厚的羊毛，可以織成毛衣。綿羊是群居動物，喜歡一起行動。', fact: '綿羊毛會一直長！' },
+            { emoji: '🦆', name: '小鴨', sound: '嘎嘎嘎～我是小鴨！', lesson: '小鴨有扁扁的嘴巴，愛吃蟲子和水草。小鴨子出生就會游泳。', fact: '小鴨會把第一個看到的動物當成媽媽！' }
         ],
         numbers: [
-            { emoji: '1️⃣', name: '數字1', sound: '一！一根棒棒糖！', lesson: '數字1，就像一根棒棒糖！👶 請小朋友找找看，家裡有什麼東西是1個？', fact: '1是最小的數字，但卻很重要！' },
-            { emoji: '2️⃣', name: '數字2', sound: '二！兩隻小鴨！', lesson: '數字2，就像一隻小鴨！👶 請小朋友數數看自己有幾隻眼睛？', fact: '2代表一雙，兩隻、兩個都是2！' },
-            { emoji: '3️⃣', name: '數字3', sound: '三！三顆星星！', lesson: '數字3，就像一顆三角形星星！👶 三角形有3個角，請小朋友找找看！', fact: '3在很多文化中是幸運數字！' },
-            { emoji: '4️⃣', name: '數字4', sound: '四！四瓣花朵！', lesson: '數字4，就像一朵四瓣花！👶 請小朋友數數看椅子有幾條腿？', fact: '4在中文和「死」同音，有些地方會避開。' },
-            { emoji: '5️⃣', name: '數字5', sound: '五！五根手指！', lesson: '數字5，就像一隻手有5根手指！👶 請小朋友舉起手數數看！', fact: '很多人喜歡數字5，因為代表圓滿！' },
-            { emoji: '6️⃣', name: '數字6', sound: '六！六顆汽球！', lesson: '數字6，就像一顆氣球！👶 請小朋友數數看骰子有幾個點？', fact: '6顛倒過來就是9，要小心分清楚！' },
-            { emoji: '7️⃣', name: '數字7', sound: '七！七色彩虹！', lesson: '數字7，就像一道彩虹！彩虹有7種顏色：紅橙黃綠藍靛紫！', fact: '7天是1個星期！' },
-            { emoji: '8️⃣', name: '數字8', sound: '八！八角冰棒！', lesson: '數字8，就像一顆冰棒！👶 請小朋友數數看章魚有幾隻腳？', fact: '8在中文代表「發」，很多人喜歡！' },
-            { emoji: '9️⃣', name: '數字9', sound: '九！九顆氣球！', lesson: '數字9，就像一顆氣球！👶 9是3+3+3，也是3×3！', fact: '9在中文代表「久」，代表長長久久！' },
-            { emoji: '🔟', name: '數字10', sound: '十！十根蠟燭！', lesson: '數字10！10就是兩個5，也是1個十和0個一！👶 請小朋友數數看有幾根手指？', fact: '10是兩位數的開始！' },
+            { emoji: '1️⃣', name: '數字1', sound: '一！一根棒棒糖！', lesson: '數字1，就像一根棒棒糖！請小朋友找找看，家裡有什麼東西是1個？', fact: '1是最小的數字！' },
+            { emoji: '2️⃣', name: '數字2', sound: '二！兩隻小鴨！', lesson: '數字2，就像一隻小鴨！請小朋友數數看自己有幾隻眼睛？', fact: '2代表一雙！' },
+            { emoji: '3️⃣', name: '數字3', sound: '三！三顆星星！', lesson: '數字3，就像一顆三角形星星！三角形有3個角！', fact: '3在很多文化中是幸運數字！' },
+            { emoji: '4️⃣', name: '數字4', sound: '四！四瓣花朵！', lesson: '數字4，就像一朵四瓣花！請小朋友數數看椅子有幾條腿？', fact: '4在中文和「死」同音！' },
+            { emoji: '5️⃣', name: '數字5', sound: '五！五根手指！', lesson: '數字5，就像一隻手有5根手指！請小朋友舉起手數數看！', fact: '很多人喜歡數字5！' },
+            { emoji: '6️⃣', name: '數字6', sound: '六！六顆汽球！', lesson: '數字6，就像一顆氣球！請小朋友數數看骰子有幾個點？', fact: '6顛倒過來就是9！' },
+            { emoji: '7️⃣', name: '數字7', sound: '七！七色彩虹！', lesson: '數字7，就像一道彩虹！彩虹有7種顏色！', fact: '7天是1個星期！' },
+            { emoji: '8️⃣', name: '數字8', sound: '八！八角冰棒！', lesson: '數字8，就像一顆冰棒！請小朋友數數看章魚有幾隻腳？', fact: '8在中文代表「發」！' },
+            { emoji: '9️⃣', name: '數字9', sound: '九！九顆氣球！', lesson: '數字9，就像一顆氣球！9是3+3+3！', fact: '9在中文代表「久」！' },
+            { emoji: '🔟', name: '數字10', sound: '十！十根蠟燭！', lesson: '數字10！10就是兩個5！請小朋友數數看有幾根手指？', fact: '10是兩位數的開始！' },
             { emoji: '1️⃣1️⃣', name: '數字11', sound: '十一！十一顆糖果！', lesson: '數字11！兩個1排在一起，代表1個十和1個一！', fact: '11月11日是購物節！' },
-            { emoji: '1️⃣2️⃣', name: '數字12', sound: '十二！十二顆葡萄！', lesson: '數字12！12是6×2，也是2×6！時鐘上有12個數字！', fact: '1年有12個月！' },
-            { emoji: '1️⃣3️⃣', name: '數字13', sound: '十三！十三個小朋友！', lesson: '數字13！在西方13是不吉利的數字，但在中國沒有這個說法。', fact: '很多樓層會跳過13！' },
-            { emoji: '1️⃣4️⃣', name: '數字14', sound: '十四！十四天！', lesson: '數字14！14是7×2，也是2×7！', fact: '2個星期是14天！' },
+            { emoji: '1️⃣2️⃣', name: '數字12', sound: '十二！十二顆葡萄！', lesson: '數字12！時鐘上有12個數字！', fact: '1年有12個月！' },
+            { emoji: '1️⃣3️⃣', name: '數字13', sound: '十三！十三個小朋友！', lesson: '數字13！在西方13是不吉利的數字！', fact: '很多樓層會跳過13！' },
+            { emoji: '1️⃣4️⃣', name: '數字14', sound: '十四！十四天！', lesson: '數字14！14是7×2！', fact: '2個星期是14天！' },
             { emoji: '1️⃣5️⃣', name: '數字15', sound: '十五！十五的月亮！', lesson: '數字15！農曆15是中秋節，月亮最圓！', fact: '月亮在農曆15最圓最亮！' },
-            { emoji: '1️⃣6️⃣', name: '數字16', sound: '十六！十六步！', lesson: '數字16！16是4×4，也是2的4次方！', fact: '很多水果一盒是16顆！' },
-            { emoji: '1️⃣7️⃣', name: '數字17', sound: '十七！十七朵花！', lesson: '數字17！17是一個質數，只能被1和自己整除！', fact: '質數是數學王國裡特別的數字！' },
-            { emoji: '1️⃣8️⃣', name: '數字18', sound: '十八！十八歲！', lesson: '數字18！在台灣18歲就是大人了，可以考駕照！', fact: '很多國家規定18歲是成年！' },
+            { emoji: '1️⃣6️⃣', name: '數字16', sound: '十六！十六步！', lesson: '數字16！16是4×4！', fact: '很多水果一盒是16顆！' },
+            { emoji: '1️⃣7️⃣', name: '數字17', sound: '十七！十七朵花！', lesson: '數字17！17是一個質數！', fact: '質數是特別的數字！' },
+            { emoji: '1️⃣8️⃣', name: '數字18', sound: '十八！十八歲！', lesson: '數字18！在台灣18歲就是大人了！', fact: '很多國家規定18歲是成年！' },
             { emoji: '1️⃣9️⃣', name: '數字19', sound: '十九！十九顆星星！', lesson: '數字19！19也是質數！', fact: '中秋節後19天是重陽節！' },
-            { emoji: '2️⃣0️⃣', name: '數字20', sound: '二十！二十顆糖果！', lesson: '數字20！20是2×10，也是10+10！這是我們學的最後一個數字！', fact: '很多東西一包是20個！' }
+            { emoji: '2️⃣0️⃣', name: '數字20', sound: '二十！二十顆糖果！', lesson: '數字20！20是2×10！這是我們學的最後一個數字！', fact: '很多東西一包是20個！' }
         ],
         colors: [
-            { emoji: '🔴', name: '紅色', sound: '紅色！紅咚咚的蘋果！', lesson: '紅色是最熱情的顏色！蘋果、草莓、西瓜瓤都是紅色的。紅燈時要停下來！', fact: '紅色讓人覺得開心和興奮！' },
-            { emoji: '🟠', name: '橙色', sound: '橙色！橘子是橙色的！', lesson: '橙色是紅色加黃色混合出來的！胡蘿蔔、南瓜、橘子都是橙色。', fact: '橙色讓人覺得溫暖和活力！' },
-            { emoji: '🟡', name: '黃色', sound: '黃色！黃澄澄的香蕉！', lesson: '黃色是陽光的顏色！香蕉、太陽、星星都是黃色的。黃燈要準備停下來。', fact: '黃色是小朋友最喜歡的顏色之一！' },
+            { emoji: '🔴', name: '紅色', sound: '紅色！紅咚咚的蘋果！', lesson: '紅色是最熱情的顏色！蘋果、草莓都是紅色的。紅燈時要停下來！', fact: '紅色讓人覺得開心！' },
+            { emoji: '🟠', name: '橙色', sound: '橙色！橘子是橙色的！', lesson: '橙色是紅色加黃色混合出來的！胡蘿蔔、南瓜、橘子都是橙色。', fact: '橙色讓人覺得溫暖！' },
+            { emoji: '🟡', name: '黃色', sound: '黃色！黃澄澄的香蕉！', lesson: '黃色是陽光的顏色！香蕉、太陽、星星都是黃色的。', fact: '黃色是小朋友最喜歡的顏色！' },
             { emoji: '🟢', name: '綠色', sound: '綠色！綠油油的草地！', lesson: '綠色是植物的顏色！草地、樹葉、青蛙都是綠色的。綠燈可以通行！', fact: '多看綠色對眼睛很好！' },
-            { emoji: '🔵', name: '藍色', sound: '藍色！藍藍的天空！', lesson: '藍色是天空和大海的顏色！天空、海洋都是藍色的。藍色讓人覺得平靜。', fact: '最深的大海比天空還要藍！' },
+            { emoji: '🔵', name: '藍色', sound: '藍色！藍藍的天空！', lesson: '藍色是天空和大海的顏色！天空、海洋都是藍色的。', fact: '最深的大海比天空還要藍！' },
             { emoji: '🟣', name: '紫色', sound: '紫色！紫紫的葡萄！', lesson: '紫色是藍色加紅色混合出來的！葡萄、茄子都是紫色的。', fact: '紫色在古代是很珍貴的顏色！' },
             { emoji: '🩷', name: '粉色', sound: '粉色！粉粉的小豬！', lesson: '粉色是淡淡的紅色，很溫柔的顏色！櫻花、豬鼻子都是粉色的。', fact: '很多小女孩最喜歡粉色！' },
             { emoji: '🤎', name: '棕色', sound: '棕色！棕色的小熊！', lesson: '棕色是土地的顏色！巧克力、樹幹、熊都是棕色的。', fact: '地球的土壤是棕色的！' },
-            { emoji: '⚫', name: '黑色', sound: '黑色！黑色的夜空！', lesson: '黑色是沒有光線的顏色！夜晚、貓熊的眼睛、黑板都是黑色的。', fact: '黑色可以讓其他顏色更顯眼！' },
-            { emoji: '⚪', name: '白色', sound: '白色！白色的雲朵！', lesson: '白色是光線混合的顏色！雲朵、綿羊、雪都是白色的。白燈代表全部顏色！', fact: '北極熊的毛是白色的，但不是透明的！' },
+            { emoji: '⚫', name: '黑色', sound: '黑色！黑色的夜空！', lesson: '線的顏色！夜晚、貓熊的眼睛、黑板都是黑色的。', fact:黑色是沒有光 '黑色可以讓其他顏色更顯眼！' },
+            { emoji: '⚪', name: '白色', sound: '白色！白色的雲朵！', lesson: '白色是光線混合的顏色！雲朵、綿羊、雪都是白色的。', fact: '北極熊的毛是白色的，但不是透明的！' },
             { emoji: '🩵', name: '淺藍色', sound: '淺藍色！淺淺的湖水！', lesson: '淺藍色是淡淡的藍色！湖水、淺色的牛仔褲都是淺藍色。', fact: '淺藍色讓人覺得清爽！' },
             { emoji: '💚', name: '亮綠色', sound: '亮綠色！亮晶晶的綠葉！', lesson: '亮綠色是很鮮艷的綠色！交通號誌的綠燈是新生的顏色。', fact: '亮綠色代表可以通行！' }
         ],
         shapes: [
             { emoji: '⭕', name: '圓形', sound: '圓形！像太陽一樣圓！', lesson: '圓形沒有角，圓圓的！球、太陽、輪子、硬幣都是圓形。', fact: '圓形滾得最快！' },
             { emoji: '🟥', name: '正方形', sound: '正方形！像盒子一樣方！', lesson: '正方形有4條邊，4個角，每邊都一樣長！電視、窗戶、豆腐都是正方形。', fact: '正方形是特別的四邊形！' },
-            { emoji: '🟦', name: '長方形', sound: '長方形！像門一樣長長的！', lesson: '長方形有4條邊，4個角，對邊一樣長！門、書、手機都是長方形。', fact: '長方形是立體的長方體的「臉」！' },
+            { emoji: '🟦', name: '長方形', sound: '長方形！像門一樣長長的！', lesson: '長方形有4條邊，4個角，對邊一樣長！門、書、手機都是長方形。', fact: '長方形是長方體的「臉」！' },
             { emoji: '🔺', name: '三角形', sound: '三角形！像屋頂一樣尖！', lesson: '三角形有3個角，3條邊！金字塔、屋頂、三角尺都是三角形。', fact: '三角形是最穩固的形狀！' },
             { emoji: '⭐', name: '五角星', sound: '星星！晚上會閃閃發光！', lesson: '星星是五角形的！國旗上、餅乾上都有星星。星星離我們非常非常遠！', fact: '我們看到的星星可能是幾百萬年前的光！' },
             { emoji: '💚', name: '愛心形', sound: '愛心！這是愛！', lesson: '愛心代表愛和喜歡！紅色的愛心最常見。爸爸媽媽愛你！', fact: '愛心是左右對稱的形狀！' },
-            { emoji: '💎', name: '菱形', sound: '菱形！像鑽石一樣！', lesson: '菱形有4條邊，4個角，對角相等！風箏、菱角、有些窗戶是菱形。', fact: '鑽石的切割面很多是菱形！' },
+            { emoji: '💎', name: '菱形', sound: '菱形！像鑽石一樣！', lesson: '菱形有4條邊，4個角，對角相等！風箏、菱角都是菱形。', fact: '鑽石的切割面很多是菱形！' },
             { emoji: '🔷', name: '橢圓形', sound: '橢圓形！像雞蛋一樣！', lesson: '橢圓形是拉長的圓形！雞蛋、茄子、橄欖球都是橢圓形。', fact: '地球其實是橢圓形的！' },
             { emoji: '🩰', name: '半圓形', sound: '半圓形！像月亮一樣！', lesson: '半圓形是圓形的一半！半圓形的漢堡、微笑的嘴巴都是半圓形。', fact: '半圓形像一個弓！' },
             { emoji: '⬠', name: '六角形', sound: '六角形！像蜂窩一樣！', lesson: '六角形有6個角，6條邊！蜂窩、雪花、螺絲帽都是六角形。', fact: '蜂窩用六角形最省材料！' }
         ],
         fruits: [
-            { emoji: '🍎', name: '蘋果', sound: '蘋果！一天一蘋果，醫生遠離我！', lesson: '蘋果是最常見的水果！有紅色、綠色、金色三種。蘋果可以做成蘋果派和蘋果汁！', fact: '蘋果每年產量超過8000萬噸！' },
-            { emoji: '🍌', name: '香蕉', sound: '香蕉！彎彎的香蕉！', lesson: '香蕉長在大型草本植物上，不是樹！香蕉是草本植物，香蕉愛吃蟲子！', fact: '香蕉是草不是樹！' },
-            { emoji: '🍇', name: '葡萄', sound: '葡萄！紫紫甜甜的葡萄！', lesson: '葡萄是一顆一顆長在藤蔓上的水果。葡萄可以釀成葡萄酒和葡萄汁！', fact: '一串葡萄可能有300顆！' },
+            { emoji: '🍎', name: '蘋果', sound: '蘋果！一天一蘋果，醫生遠離我！', lesson: '蘋果是最常見的水果！有紅色、綠色、金色三種。可以做蘋果派和蘋果汁！', fact: '蘋果每年產量超過8000萬噸！' },
+            { emoji: '🍌', name: '香蕉', sound: '香蕉！彎彎的香蕉！', lesson: '香蕉長在大型草本植物上，不是樹！香蕉愛吃蟲子！', fact: '香蕉是草不是樹！' },
+            { emoji: '🍇', name: '葡萄', sound: '葡萄！紫紫甜甜的葡萄！', lesson: '葡萄是一顆一顆長在藤蔓上的水果。可以釀成葡萄酒和葡萄汁！', fact: '一串葡萄可能有300顆！' },
             { emoji: '🍊', name: '橘子', sound: '橘子！酸酸甜甜的橘子！', lesson: '橘子是柑橘類水果，果皮有密密麻麻的小點點！橘子維生素C很多！', fact: '橘子的維生素C比檸檬還多！' },
             { emoji: '🍓', name: '草莓', sound: '草莓！紅紅的草莓！', lesson: '草莓上面的籽是草莓的種子！草莓是春天最好吃的水果！', fact: '草莓上的籽其實是種子！' },
             { emoji: '🍉', name: '西瓜', sound: '西瓜！大大甜甜的西瓜！', lesson: '西瓜大部分是水，夏天吃最涼爽！西瓜有紅色和黃色果肉的！', fact: '西瓜92%都是水！' },
             { emoji: '🍍', name: '鳳梨', sound: '鳳梨！酸甜好吃的鳳梨！', lesson: '鳳梨長在地上，葉子很尖！鳳梨要插過眼睛才會甜！', fact: '鳳梨的國語是鳳梨，台語是王梨！' },
-            { emoji: '🥝', name: '奇異果', sound: '奇異果！綠綠毛毛的奇異果！', lesson: '奇異果原產於中國，叫獼猴桃！奇異果維生素C非常豐富！', fact: '奇異果一天吃2顆就夠一天維生素C！' },
-            { emoji: '🍋', name: '檸檬', sound: '檸檬！酸酸的檸檬！', lesson: '檸檬很酸，通常用來調味或做飲料！檸檬水對身體很好！', fact: '檸檬其實是檸檬酸構成的！' },
-            { emoji: '🍑', name: '桃子', sound: '桃子！毛毛的桃子！', lesson: '桃子表面有毛，果肉甜美多汁！桃子象徵長壽！', fact: '桃子原產於中國，已經種了3000年
+            { emoji: '🥝', name: '奇異果', sound: '奇異果！綠綠毛毛的奇異果！', lesson: '奇異果原產於中國，叫獼猴桃！維生素C非常豐富！', fact: '一天吃2顆就夠一天維生素C！' },
+            { emoji: '🍋', name: '檸檬', sound: '檸檬！酸酸的檸檬！', lesson: '檸檬很酸，通常用來調味或做飲料！檸檬水對身體很好！', fact: '檸檬是檸檬酸構成的！' },
+            { emoji: '🍑', name: '桃子', sound: '桃子！毛毛的桃子！', lesson: '桃子表面有毛，果肉甜美多汁！桃子象徵長壽！', fact: '桃子原產於中國，已經種了3000年！' },
+            { emoji: '🥭', name: '芒果', sound: '芒果！黃黃的芒果！', lesson: '芒果是熱帶水果，果肉金黃香甜！芒果冰、芒果汁都很好吃！', fact: '芒果是水果之王！' },
+            { emoji: '🍒', name: '櫻桃', sound: '櫻桃！紅紅的小櫻桃！', lesson: '櫻桃小小的，紅紅的，一顆一顆的！櫻桃很甜很好吃！', fact: '櫻桃價錢很貴！' },
+            { emoji: '🥥', name: '椰子', sound: '椰子！硬硬的椰子！', lesson: '椰子長在椰子樹上，裡面有甜甜的椰子水！椰子殼很硬！', fact: '椰子水可以解渴！' },
+            { emoji: '🍐', name: '梨子', sound: '梨子！水水的梨子！', lesson: '梨子水分很多，吃起來脆脆的！梨子可以潤喉！', fact: '梨子煮冰糖對喉嚨好！' },
+            { emoji: '🥝', name: '芭樂', sound: '芭樂！綠綠的芭樂！', lesson: '芭樂是台灣常見的水果，維生素C很多！可以沾甘草粉吃！', fact: '芭樂籽也可以吃！' }
+        ],
+        songs: [
+            { emoji: '⭐', name: '小星星', sound: '一閃一閃亮晶晶！', lesson: '【小星星】<br>一閃一閃亮晶晶，<br>滿天都是小星星！<br><br>✨ 跟著唱！', fact: '✨ 晚上看星星！' },
+            { emoji: '🐯', name: '兩隻老虎', sound: '兩隻老虎跑得快！', lesson: '【兩隻老虎】<br>兩隻老虎，兩隻老虎，<br>跑得快，跑得快，<br>一隻沒有耳朵，<br>一隻沒有尾巴，<br>真奇怪！真奇怪！', fact: '🐯 唱給爸媽聽！' },
+            { emoji: '🐤', name: '小雞小雞', sound: '小小雞嘰嘰嘰！', lesson: '【小雞叫】<br>小小雞嘰嘰嘰，<br>跟在媽媽後面跑！
