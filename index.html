@@ -10,26 +10,24 @@
         .header { text-align: center; padding: 30px; background: linear-gradient(180deg, #FFD93D, #FF6B6B); border-radius: 0 0 30px 30px; }
         .header h1 { font-size: 48px; color: white; text-shadow: 3px 3px 0 #FF6B6B; }
         .header p { font-size: 24px; color: white; margin-top: 10px; }
-        .categories { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 30px; max-width: 800px; margin: 0 auto; }
-        .category { background: white; border-radius: 24px; padding: 25px; text-align: center; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: transform 0.3s; }
-        .category:hover { transform: translateY(-10px); }
-        .category-icon { font-size: 60px; display: block; margin-bottom: 10px; }
-        .category h2 { font-size: 24px; color: #333; }
-        .category p { color: #888; margin-top: 5px; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; padding: 20px; }
-        .modal.active { display: flex; }
-        .modal-content { text-align: center; max-width: 600px; }
-        .modal-emoji { font-size: 150px; cursor: pointer; }
-        .modal-name { font-size: 48px; color: white; margin: 20px 0; font-weight: bold; }
-        .modal-lesson { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 20px; margin: 20px 0; text-align: left; }
-        .modal-lesson h3 { color: #FFD93D; margin-bottom: 10px; }
-        .modal-lesson p { color: white; line-height: 1.8; font-size: 18px; }
-        .sound-btn { background: linear-gradient(135deg, #FFD93D, #FF6B6B); border: none; padding: 15px 30px; border-radius: 50px; font-size: 20px; color: white; cursor: pointer; margin: 10px; }
-        .close-btn { position: fixed; top: 20px; right: 20px; font-size: 40px; color: white; cursor: pointer; background: rgba(255,255,255,0.2); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 50px; color: white; cursor: pointer; background: none; border: none; }
-        .nav-left { left: 20px; }
-        .nav-right { right: 20px; }
-        .counter { position: fixed; bottom: 100px; color: white; font-size: 20px; }
+        .menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 30px; max-width: 800px; margin: 0 auto; }
+        .menu a { display: block; background: white; border-radius: 24px; padding: 25px; text-align: center; text-decoration: none; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .menu a:hover { transform: translateY(-10px); }
+        .menu .icon { font-size: 60px; display: block; margin-bottom: 10px; }
+        .menu .title { font-size: 24px; font-weight: bold; }
+        .menu .count { color: #888; margin-top: 5px; }
+        .back { display: block; text-align: center; padding: 20px; }
+        .back a { color: #666; text-decoration: none; font-size: 18px; }
+        .section { display: none; padding: 30px; }
+        .section.active { display: block; }
+        .section h2 { font-size: 36px; text-align: center; margin-bottom: 30px; }
+        .items { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .item { background: white; border-radius: 20px; padding: 25px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .item .emoji { font-size: 80px; display: block; margin-bottom: 15px; }
+        .item .name { font-size: 28px; font-weight: bold; margin-bottom: 15px; }
+        .item .lesson { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 15px; margin-bottom: 15px; text-align: left; line-height: 1.8; }
+        .item .fact { background: linear-gradient(135deg, rgba(255,107,107,0.3), rgba(255,217,61,0.3)); border-radius: 10px; padding: 12px; text-align: left; font-size: 14px; border-left: 4px solid #FFD93D; }
+        footer { text-align: center; padding: 30px; color: #888; }
     </style>
 </head>
 <body>
@@ -38,178 +36,167 @@
         <p>2-5歲 快樂學認知</p>
     </header>
     
-    <div class="categories" id="categories"></div>
-    
-    <div class="modal" id="modal">
-        <div class="close-btn" onclick="closeModal()">X</div>
-        <button class="nav-btn nav-left" onclick="prevItem()">◀</button>
-        <div class="modal-content">
-            <div class="modal-emoji" onclick="speak()">🦁</div>
-            <div class="modal-name" id="modalName">獅子</div>
-            <div class="modal-lesson">
-                <h3>知識小學堂</h3>
-                <p id="modalLesson">內容...</p>
-            </div>
-            <button class="sound-btn" onclick="speak()">聽聲音</button>
-        </div>
-        <button class="nav-btn nav-right" onclick="nextItem()">▶</button>
-        <div class="counter" id="counter">1 / 16</div>
+    <!-- 首頁選單 -->
+    <div class="menu" id="home">
+        <a href="#animals">🦁<br><span class="title">動物世界</span><br><span class="count">16 種動物</span></a>
+        <a href="#numbers">🔢<br><span class="title">快樂學數字</span><br><span class="count">20 個數字</span></a>
+        <a href="#colors">🌈<br><span class="title">繽紛顏色</span><br><span class="count">12 種顏色</span></a>
+        <a href="#shapes">📐<br><span class="title">形狀遊戲</span><br><span class="count">10 種形狀</span></a>
+        <a href="#fruits">🍎<br><span class="title">好吃水果</span><br><span class="count">15 種水果</span></a>
+        <a href="#songs">🎵<br><span class="title">經典兒歌</span><br><span class="count">8 首兒歌</span></a>
     </div>
     
+    <!-- 動物世界 -->
+    <div class="section" id="animals">
+        <h2>🦁 動物世界</h2>
+        <div class="items">
+            <div class="item"><span class="emoji">🦁</span><div class="name">獅子</div><div class="lesson">獅子是非洲草原上的萬獸之王！獅子爸爸有帥氣的鬃毛，獅子媽媽負責打獵。</div><div class="fact">小知識：獅子一天可以睡20個小時！</div></div>
+            <div class="item"><span class="emoji">🐯</span><div class="name">老虎</div><div class="lesson">老虎是世界上最大的貓科動物！每隻老虎身上的條紋都不同。</div><div class="fact">小知識：老虎喜歡游泳，是游泳高手！</div></div>
+            <div class="item"><span class="emoji">🐘</span><div class="name">大象</div><div class="lesson">大象有長長的鼻子，可以喝水、洗澡、拿東西。大象的耳朵很大。</div><div class="fact">小知識：大象的鼻子有4萬塊肌肉！</div></div>
+            <div class="item"><span class="emoji">🐵</span><div class="name">猴子</div><div class="lesson">猴子是靈長類動物，牠們很聰明，會用工具捉蟲子吃。</div><div class="fact">小知識：全世界有超過260種猴子！</div></div>
+            <div class="item"><span class="emoji">🐼</span><div class="name">熊貓</div><div class="lesson">熊貓是中國的國寶！牠們最愛吃竹子，一天可以吃30公斤。</div><div class="fact">小知識：熊貓原來是肉食動物，但現在只吃竹子！</div></div>
+            <div class="item"><span class="emoji">🐻</span><div class="name">熊熊</div><div class="lesson">熊熊有不同種類：棕熊、北極熊、黑熊。熊熊愛吃蜂蜜。</div><div class="fact">小知識：北極熊的毛是透明的！</div></div>
+            <div class="item"><span class="emoji">🐰</span><div class="name">兔子</div><div class="lesson">兔子有長長的耳朵，可以聽到很遠的聲音。兔子後腿很發達。</div><div class="fact">小知識：兔子的牙齒會一直長！</div></div>
+            <div class="item"><span class="emoji">🐶</span><div class="name">小狗</div><div class="lesson">小狗是人類最忠心的朋友。狗會幫主人看家和陪伴。</div><div class="fact">小知識：小狗的鼻子是濕濕的！</div></div>
+            <div class="item"><span class="emoji">🐱</span><div class="name">小貓</div><div class="lesson">小貓是優雅的動物，愛乾淨會自己舔毛。</div><div class="fact">小知識：貓咪可以發出100種不同的聲音！</div></div>
+            <div class="item"><span class="emoji">🐮</span><div class="name">乳牛</div><div class="lesson">乳牛住在農場，牠們提供牛奶給人類喝。</div><div class="fact">小知識：牛有4個胃袋！</div></div>
+            <div class="item"><span class="emoji">🐷</span><div class="name">小豬</div><div class="lesson">小豬胖嘟嘟的，鼻子圓圓的。豬其實很愛乾淨。</div><div class="fact">小知識：豬的智商比狗還高！</div></div>
+            <div class="item"><span class="emoji">🐔</span><div class="name">母雞</div><div class="lesson">母雞會下蛋給我們吃。母雞媽媽會用翅膀保護小雞。</div><div class="fact">小知識：小雞會從蛋裡敲敲敲出來！</div></div>
+            <div class="item"><span class="emoji">🦊</span><div class="name">狐狸</div><div class="lesson">狐狸很聰明，耳朵尖尖的，尾巴毛茸茸。</div><div class="fact">小知識：狐狸的尾巴可以幫助保持平衡！</div></div>
+            <div class="item"><span class="emoji">🐴</span><div class="name">小馬</div><div class="lesson">小馬有4條腿，奔跑速度很快。</div><div class="fact">小知識：馬站立時也可以睡覺！</div></div>
+            <div class="item"><span class="emoji">🐑</span><div class="name">綿羊</div><div class="lesson">綿羊身上有厚厚的羊毛，可以織成毛衣。</div><div class="fact">小知識：綿羊毛會一直長！</div></div>
+            <div class="item"><span class="emoji">🦆</span><div class="name">小鴨</div><div class="lesson">小鴨有扁扁的嘴巴，愛吃蟲子和水草。</div><div class="fact">小知識：小鴨會把第一個看到的動物當成媽媽！</div></div>
+        </div>
+        <div class="back"><a href="#">⬅️ 回首頁</a></div>
+    </div>
+    
+    <!-- 數字 -->
+    <div class="section" id="numbers">
+        <h2>🔢 快樂學數字</h2>
+        <div class="items">
+            <div class="item"><span class="emoji">1️⃣</span><div class="name">數字1</div><div class="lesson">數字1，就像一根棒棒糖！</div><div class="fact">小知識：1是最小的數字！</div></div>
+            <div class="item"><span class="emoji">2️⃣</span><div class="name">數字2</div><div class="lesson">數字2，就像一隻小鴨！</div><div class="fact">小知識：2代表一雙！</div></div>
+            <div class="item"><span class="emoji">3️⃣</span><div class="name">數字3</div><div class="lesson">數字3，就像一顆三角形！</div><div class="fact">小知識：3在很多文化中是幸運數字！</div></div>
+            <div class="item"><span class="emoji">4️⃣</span><div class="name">數字4</div><div class="lesson">數字4，就像一朵四瓣花！</div><div class="fact">小知識：4在中文和「死」同音！</div></div>
+            <div class="item"><span class="emoji">5️⃣</span><div class="name">數字5</div><div class="lesson">數字5，就像一隻手有5根手指！</div><div class="fact">小知識：很多人喜歡數字5！</div></div>
+            <div class="item"><span class="emoji">6️⃣</span><div class="name">數字6</div><div class="lesson">數字6，就像一顆氣球！</div><div class="fact">小知識：6顛倒過來就是9！</div></div>
+            <div class="item"><span class="emoji">7️⃣</span><div class="name">數字7</div><div class="lesson">數字7，就像一道彩虹！</div><div class="fact">小知識：7天是1個星期！</div></div>
+            <div class="item"><span class="emoji">8️⃣</span><div class="name">數字8</div><div class="lesson">數字8，就像一顆冰棒！</div><div class="fact">小知識：8在中文代表「發」！</div></div>
+            <div class="item"><span class="emoji">9️⃣</span><div class="name">數字9</div><div class="lesson">數字9，就像一顆氣球！</div><div class="fact">小知識：9在中文代表「久」！</div></div>
+            <div class="item"><span class="emoji">🔟</span><div class="name">數字10</div><div class="lesson">數字10！10就是兩個5！</div><div class="fact">小知識：10是兩位數的開始！</div></div>
+            <div class="item"><span class="emoji">1️⃣1️⃣</span><div class="name">數字11</div><div class="lesson">數字11！兩個1排在一起！</div><div class="fact">小知識：11月11日是購物節！</div></div>
+            <div class="item"><span class="emoji">1️⃣2️⃣</span><div class="name">數字12</div><div class="lesson">數字12！時鐘上有12個數字！</div><div class="fact">小知識：1年有12個月！</div></div>
+            <div class="item"><span class="emoji">1️⃣3️⃣</span><div class="name">數字13</div><div class="lesson">數字13！在西方是不吉利的數字！</div><div class="fact">小知識：很多樓層會跳過13！</div></div>
+            <div class="item"><span class="emoji">1️⃣4️⃣</span><div class="name">數字14</div><div class="lesson">數字14！14是7×2！</div><div class="fact">小知識：2個星期是14天！</div></div>
+            <div class="item"><span class="emoji">1️⃣5️⃣</span><div class="name">數字15</div><div class="lesson">數字15！農曆15是中秋節！</div><div class="fact">小知識：月亮在農曆15最圓最亮！</div></div>
+            <div class="item"><span class="emoji">1️⃣6️⃣</span><div class="name">數字16</div><div class="lesson">數字16！16是4×4！</div><div class="fact">小知識：很多水果一盒是16顆！</div></div>
+            <div class="item"><span class="emoji">1️⃣7️⃣</span><div class="name">數字17</div><div class="lesson">數字17！17是一個質數！</div><div class="fact">小知識：質數是特別的數字！</div></div>
+            <div class="item"><span class="emoji">1️⃣8️⃣</span><div class="name">數字18</div><div class="lesson">數字18！在台灣18歲就是大人了！</div><div class="fact">小知識：很多國家規定18歲是成年！</div></div>
+            <div class="item"><span class="emoji">1️⃣9️⃣</span><div class="name">數字19</div><div class="lesson">數字19！19也是質數！</div><div class="fact">小知識：中秋節後19天是重陽節！</div></div>
+            <div class="item"><span class="emoji">2️⃣0️⃣</span><div class="name">數字20</div><div class="lesson">數字20！這是我們學的最後一個數字！</div><div class="fact">小知識：很多東西一包是20個！</div></div>
+        </div>
+        <div class="back"><a href="#">⬅️ 回首頁</a></div>
+    </div>
+    
+    <!-- 顏色 -->
+    <div class="section" id="colors">
+        <h2>🎨 繽紛顏色</h2>
+        <div class="items">
+            <div class="item"><span class="emoji">🔴</span><div class="name">紅色</div><div class="lesson">紅色是最熱情的顏色！蘋果、草莓都是紅色的。</div><div class="fact">小知識：紅色讓人覺得開心！</div></div>
+            <div class="item"><span class="emoji">🟠</span><div class="name">橙色</div><div class="lesson">橙色是紅色加黃色混合出來的！</div><div class="fact">小知識：橙色讓人覺得溫暖！</div></div>
+            <div class="item"><span class="emoji">🟡</span><div class="name">黃色</div><div class="lesson">黃色是陽光的顏色！香蕉、太陽都是黃色的。</div><div class="fact">小知識：黃色是小朋友最喜歡的顏色！</div></div>
+            <div class="item"><span class="emoji">🟢</span><div class="name">綠色</div><div class="lesson">綠色是植物的顏色！草地、樹葉都是綠色的。</div><div class="fact">小知識：多看綠色對眼睛很好！</div></div>
+            <div class="item"><span class="emoji">🔵</span><div class="name">藍色</div><div class="lesson">藍色是天空和大海的顏色！</div><div class="fact">小知識：最深的大海比天空還要藍！</div></div>
+            <div class="item"><span class="emoji">🟣</span><div class="name">紫色</div><div class="lesson">紫色是藍色加紅色混合出來的！</div><div class="fact">小知識：紫色在古代是很珍貴的顏色！</div></div>
+            <div class="item"><span class="emoji">🩷</span><div class="name">粉色</div><div class="lesson">粉色是淡淡的紅色，很溫柔的顏色！</div><div class="fact">小知識：很多小女孩最喜歡粉色！</div></div>
+            <div class="item"><span class="emoji">⚫</span><div class="name">黑色</div><div class="lesson">黑色是沒有光線的顏色！</div><div class="fact">小知識：黑色可以讓其他顏色更顯眼！</div></div>
+            <div class="item"><span class="emoji">⚪</span><div class="name">白色</div><div class="lesson">白色是光線混合的顏色！</div><div class="fact">小知識：北極熊的毛是白色的，但不是透明的！</div></div>
+            <div class="item"><span class="emoji">🩵</span><div class="name">淺藍色</div><div class="lesson">淺藍色是淡淡的藍色！</div><div class="fact">小知識：淺藍色讓人覺得清爽！</div></div>
+            <div class="item"><span class="emoji">💚</span><div class="name">亮綠色</div><div class="lesson">亮綠色是很鮮艷的綠色！</div><div class="fact">小知識：亮綠色代表可以通行！</div></div>
+            <div class="item"><span class="emoji">🤎</span><div class="name">棕色</div><div class="lesson">棕色是土地的顏色！</div><div class="fact">小知識：地球的土壤是棕色的！</div></div>
+        </div>
+        <div class="back"><a href="#">⬅️ 回首頁</a></div>
+    </div>
+    
+    <!-- 形狀 -->
+    <div class="section" id="shapes">
+        <h2>📐 形狀遊戲</h2>
+        <div class="items">
+            <div class="item"><span class="emoji">⭕</span><div class="name">圓形</div><div class="lesson">圓形沒有角，圓圓的！球、太陽都是圓形。</div><div class="fact">小知識：圓形滾得最快！</div></div>
+            <div class="item"><span class="emoji">🟥</span><div class="name">正方形</div><div class="lesson">正方形有4條邊，4個角，每邊都一樣長！</div><div class="fact">小知識：正方形是特別的四邊形！</div></div>
+            <div class="item"><span class="emoji">🟦</span><div class="name">長方形</div><div class="lesson">長方形有4條邊，4個角！</div><div class="fact">小知識：長方形是長方體的「臉」！</div></div>
+            <div class="item"><span class="emoji">🔺</span><div class="name">三角形</div><div class="lesson">三角形有3個角，3條邊！</div><div class="fact">小知識：三角形是最穩固的形狀！</div></div>
+            <div class="item"><span class="emoji">⭐</span><div class="name">五角星</div><div class="lesson">星星是五角形的！</div><div class="fact">小知識：我們看到的星星可能是幾百萬年前的光！</div></div>
+            <div class="item"><span class="emoji">💚</span><div class="name">愛心形</div><div class="lesson">愛心代表愛和喜歡！</div><div class="fact">小知識：愛心是左右對稱的形狀！</div></div>
+            <div class="item"><span class="emoji">💎</span><div class="name">菱形</div><div class="lesson">菱形有4條邊，4個角！</div><div class="fact">小知識：鑽石的切割面很多是菱形！</div></div>
+            <div class="item"><span class="emoji">🔷</span><div class="name">橢圓形</div><div class="lesson">橢圓形是拉長的圓形！</div><div class="fact">小知識：地球其實是橢圓形的！</div></div>
+            <div class="item"><span class="emoji">🩰</span><div class="name">半圓形</div><div class="lesson">半圓形是圓形的一半！</div><div class="fact">小知識：半圓形像一個弓！</div></div>
+            <div class="item"><span class="emoji">⬠</span><div class="name">六角形</div><div class="lesson">六角形有6個角，6條邊！</div><div class="fact">小知識：蜂窩用六角形最省材料！</div></div>
+        </div>
+        <div class="back"><a href="#">⬅️ 回首頁</a></div>
+    </div>
+    
+    <!-- 水果 -->
+    <div class="section" id="fruits">
+        <h2>🍎 好吃水果</h2>
+        <div class="items">
+            <div class="item"><span class="emoji">🍎</span><div class="name">蘋果</div><div class="lesson">蘋果是最常見的水果！</div><div class="fact">小知識：蘋果每年產量超過8000萬噸！</div></div>
+            <div class="item"><span class="emoji">🍌</span><div class="name">香蕉</div><div class="lesson">香蕉長在大型草本植物上，不是樹！</div><div class="fact">小知識：香蕉是草不是樹！</div></div>
+            <div class="item"><span class="emoji">🍇</span><div class="name">葡萄</div><div class="lesson">葡萄是一顆一顆長在藤蔓上的水果。</div><div class="fact">小知識：一串葡萄可能有300顆！</div></div>
+            <div class="item"><span class="emoji">🍊</span><div class="name">橘子</div><div class="lesson">橘子是柑橘類水果，維生素C很多！</div><div class="fact">小知識：橘子的維生素C比檸檬還多！</div></div>
+            <div class="item"><span class="emoji">🍓</span><div class="name">草莓</div><div class="lesson">草莓上面的籽是草莓的種子！</div><div class="fact">小知識：草莓上的籽其實是種子！</div></div>
+            <div class="item"><span class="emoji">🍉</span><div class="name">西瓜</div><div class="lesson">西瓜大部分是水，夏天吃最涼爽！</div><div class="fact">小知識：西瓜92%都是水！</div></div>
+            <div class="item"><span class="emoji">🍍</span><div class="name">鳳梨</div><div class="lesson">鳳梨長在地上，葉子很尖！</div><div class="fact">小知識：鳳梨的國語是鳳梨，台語是王梨！</div></div>
+            <div class="item"><span class="emoji">🥝</span><div class="name">奇異果</div><div class="lesson">奇異果原產於中國，叫獼猴桃！</div><div class="fact">小知識：一天吃2顆就夠一天維生素C！</div></div>
+            <div class="item"><span class="emoji">🍋</span><div class="name">檸檬</div><div class="lesson">檸檬很酸，通常用來調味！</div><div class="fact">小知識：檸檬是檸檬酸構成的！</div></div>
+            <div class="item"><span class="emoji">🍑</span><div class="name">桃子</div><div class="lesson">桃子表面有毛，果肉甜美多汁！</div><div class="fact">小知識：桃子原產於中國，已經種了3000年！</div></div>
+            <div class="item"><span class="emoji">🥭</span><div class="name">芒果</div><div class="lesson">芒果是熱帶水果，果肉金黃香甜！</div><div class="fact">小知識：芒果是水果之王！</div></div>
+            <div class="item"><span class="emoji">🍒</span><div class="name">櫻桃</div><div class="lesson">櫻桃小小的，紅紅的，一顆一顆的！</div><div class="fact">小知識：櫻桃價錢很貴！</div></div>
+            <div class="item"><span class="emoji">🥥</span><div class="name">椰子</div><div class="lesson">椰子長在椰子樹上，裡面有甜甜的椰子水！</div><div class="fact">小知識：椰子水可以解渴！</div></div>
+            <div class="item"><span class="emoji">🍐</span><div class="name">梨子</div><div class="lesson">梨子水分很多，吃起來脆脆的！</div><div class="fact">小知識：梨子煮冰糖對喉嚨好！</div></div>
+            <div class="item"><span class="emoji">🥭</span><div class="name">芭樂</div><div class="lesson">芭樂是台灣常見的水果，維生素C很多！</div><div class="fact">小知識：芭樂籽也可以吃！</div></div>
+        </div>
+        <div class="back"><a href="#">⬅️ 回首頁</a></div>
+    </div>
+    
+    <!-- 兒歌 -->
+    <div class="section" id="songs">
+        <h2>🎶 經典兒歌</h2>
+        <div class="items">
+            <div class="item"><span class="emoji">⭐</span><div class="name">小星星</div><div class="lesson">【小星星】一閃一閃亮晶晶，滿天都是小星星！</div><div class="fact">小知識：晚上看星星！</div></div>
+            <div class="item"><span class="emoji">🐯</span><div class="name">兩隻老虎</div><div class="lesson">【兩隻老虎】兩隻老虎，兩隻老虎，跑得快，跑得快！</div><div class="fact">小知識：唱給爸媽聽！</div></div>
+            <div class="item"><span class="emoji">🐤</span><div class="name">小雞叫</div><div class="lesson">【小雞叫】小小雞嘰嘰嘰，跟在媽媽後面跑！</div><div class="fact">小知識：小小雞會自己找蟲吃！</div></div>
+            <div class="item"><span class="emoji">🎶</span><div class="name">快樂歌</div><div class="lesson">【快樂歌】快樂快樂真快樂，唱歌跳舞笑呵呵！</div><div class="fact">小知識：唱歌讓人開心！</div></div>
+            <div class="item"><span class="emoji">🎵</span><div class="name">搖籃曲</div><div class="lesson">【搖籃曲】睡覺覺時間到，小寶貝睡覺覺！</div><div class="fact">小知識：搖籃曲讓寶寶睡覺！</div></div>
+            <div class="item"><span class="emoji">🎵</span><div class="name">唸謠</div><div class="lesson">【數字謠】一二三四五，上山打老虎！</div><div class="fact">小知識：這是傳統童謠！</div></div>
+        </div>
+        <div class="back"><a href="#">⬅️ 回首頁</a></div>
+    </div>
+    
+    <footer>👨‍👩‍👧 親子互動學習 👨‍👩‍👧</footer>
+    
     <script>
-    const categories = [
-        { name: "動物世界", icon: "🦁", items: [
-            { name: "獅子", emoji: "🦁", lesson: "獅子是非洲草原上的萬獸之王！獅子爸爸有帥氣的鬃毛，獅子媽媽負責打獵。", fact: "獅子一天可以睡20個小時！" },
-            { name: "老虎", emoji: "🐯", lesson: "老虎是世界上最大的貓科動物！每隻老虎身上的條紋都不同，就像人類的指紋一樣。", fact: "老虎喜歡游泳，是游泳高手！" },
-            { name: "大象", emoji: "🐘", lesson: "大象有長長的鼻子，可以喝水、洗澡、拿東西。", fact: "大象的鼻子有4萬塊肌肉！" },
-            { name: "猴子", emoji: "🐵", lesson: "猴子很聰明，會用工具捉蟲子吃，有長長的尾巴。", fact: "全世界有超過260種猴子！" },
-            { name: "熊貓", emoji: "🐼", lesson: "熊貓是中國的國寶！最愛吃竹子，一天可以吃30公斤。", fact: "熊貓原來是肉食動物，但現在只吃竹子！" },
-            { name: "熊熊", emoji: "🐻", lesson: "熊熊有不同種類：棕熊、北極熊、黑熊。愛吃蜂蜜。", fact: "北極熊的毛是透明的！" },
-            { name: "兔子", emoji: "🐰", lesson: "兔子有長長的耳朵，可以聽到很遠的聲音。", fact: "兔子的牙齒會一直長！" },
-            { name: "小狗", emoji: "🐶", lesson: "小狗是人類最忠心的朋友，會幫主人看家和陪伴。", fact: "小狗的鼻子是濕濕的！" },
-            { name: "小貓", emoji: "🐱", lesson: "小貓愛乾淨會自己舔毛，白天睡覺，晚上精神最好。", fact: "貓咪可以發出100種不同的聲音！" },
-            { name: "小馬", emoji: "🐴", lesson: "小馬有4條腿，奔跑速度很快。", fact: "馬站立時也可以睡覺！" },
-            { name: "綿羊", emoji: "🐑", lesson: "綿羊身上有厚厚的羊毛，可以織成毛衣。", fact: "綿羊毛會一直長！" },
-            { name: "小鴨", emoji: "🦆", lesson: "小鴨有扁扁的嘴巴，愛吃蟲子和水草。", fact: "小鴨會把第一個看到的動物當成媽媽！" },
-            { name: "乳牛", emoji: "🐮", lesson: "乳牛住在農場，提供牛奶給人類喝。", fact: "牛有4個胃袋！" },
-            { name: "小豬", emoji: "🐷", lesson: "小豬胖嘟嘟的，鼻子圓圓的。", fact: "豬的智商比狗還高！" },
-            { name: "母雞", emoji: "🐔", lesson: "母雞會下蛋給我們吃。", fact: "小雞會從蛋裡敲敲敲出來！" },
-            { name: "狐狸", emoji: "🦊", lesson: "狐狸很聰明，耳朵尖尖的，尾巴毛茸茸。", fact: "狐狸的尾巴可以幫助保持平衡！" }
-        ]},
-        { name: "快樂學數字", icon: "🔢", items: [
-            { name: "數字1", emoji: "1️⃣", lesson: "數字1，就像一根棒棒糖！", fact: "1是最小的數字！" },
-            { name: "數字2", emoji: "2️⃣", lesson: "數字2，就像一隻小鴨！", fact: "2代表一雙！" },
-            { name: "數字3", emoji: "3️⃣", lesson: "數字3，就像一顆三角形！", fact: "3在很多文化中是幸運數字！" },
-            { name: "數字4", emoji: "4️⃣", lesson: "數字4，就像一朵四瓣花！", fact: "4在中文和「死」同音！" },
-            { name: "數字5", emoji: "5️⃣", lesson: "數字5，就像一隻手有5根手指！", fact: "很多人喜歡數字5！" },
-            { name: "數字6", emoji: "6️⃣", lesson: "數字6，就像一顆氣球！", fact: "6顛倒過來就是9！" },
-            { name: "數字7", emoji: "7️⃣", lesson: "數字7，就像一道彩虹！", fact: "7天是1個星期！" },
-            { name: "數字8", emoji: "8️⃣", lesson: "數字8，就像一顆冰棒！", fact: "8在中文代表「發」！" },
-            { name: "數字9", emoji: "9️⃣", lesson: "數字9，就像一顆氣球！", fact: "9在中文代表「久」！" },
-            { name: "數字10", emoji: "🔟", lesson: "數字10！10就是兩個5！", fact: "10是兩位數的開始！" },
-            { name: "數字11", emoji: "1️⃣1️⃣", lesson: "數字11！兩個1排在一起！", fact: "11月11日是購物節！" },
-            { name: "數字12", emoji: "1️⃣2️⃣", lesson: "數字12！時鐘上有12個數字！", fact: "1年有12個月！" },
-            { name: "數字13", emoji: "1️⃣3️⃣", lesson: "數字13！在西方是不吉利的數字！", fact: "很多樓層會跳過13！" },
-            { name: "數字14", emoji: "1️⃣4️⃣", lesson: "數字14！14是7×2！", fact: "2個星期是14天！" },
-            { name: "數字15", emoji: "1️⃣5️⃣", lesson: "數字15！農曆15是中秋節！", fact: "月亮在農曆15最圓最亮！" },
-            { name: "數字16", emoji: "1️⃣6️⃣", lesson: "數字16！16是4×4！", fact: "很多水果一盒是16顆！" },
-            { name: "數字17", emoji: "1️⃣7️⃣", lesson: "數字17！17是一個質數！", fact: "質數是特別的數字！" },
-            { name: "數字18", emoji: "1️⃣8️⃣", lesson: "數字18！在台灣18歲就是大人了！", fact: "很多國家規定18歲是成年！" },
-            { name: "數字19", emoji: "1️⃣9️⃣", lesson: "數字19！19也是質數！", fact: "中秋節後19天是重陽節！" },
-            { name: "數字20", emoji: "2️⃣0️⃣", lesson: "數字20！這是我們學的最後一個數字！", fact: "很多東西一包是20個！" }
-        ]},
-        { name: "繽紛顏色", icon: "🌈", items: [
-            { name: "紅色", emoji: "🔴", lesson: "紅色是最熱情的顏色！蘋果、草莓都是紅色的。", fact: "紅色讓人覺得開心！" },
-            { name: "橙色", emoji: "🟠", lesson: "橙色是紅色加黃色混合出來的！", fact: "橙色讓人覺得溫暖！" },
-            { name: "黃色", emoji: "🟡", lesson: "黃色是陽光的顏色！香蕉、太陽都是黃色的。", fact: "黃色是小朋友最喜歡的顏色！" },
-            { name: "綠色", emoji: "🟢", lesson: "綠色是植物的顏色！草地、樹葉都是綠色的。", fact: "多看綠色對眼睛很好！" },
-            { name: "藍色", emoji: "🔵", lesson: "藍色是天空和大海的顏色！", fact: "最深的大海比天空還要藍！" },
-            { name: "紫色", emoji: "🟣", lesson: "紫色是藍色加紅色混合出來的！", fact: "紫色在古代是很珍貴的顏色！" },
-            { name: "粉色", emoji: "🩷", lesson: "粉色是淡淡的紅色，很溫柔的顏色！", fact: "很多小女孩最喜歡粉色！" },
-            { name: "棕色", emoji: "🤎", lesson: "棕色是土地的顏色！", fact: "地球的土壤是棕色的！" },
-            { name: "黑色", emoji: "⚫", lesson: "黑色是沒有光線的顏色！", fact: "黑色可以讓其他顏色更顯眼！" },
-            { name: "白色", emoji: "⚪", lesson: "白色是光線混合的顏色！", fact: "北極熊的毛是白色的，但不是透明的！" },
-            { name: "淺藍色", emoji: "🩵", lesson: "淺藍色是淡淡的藍色！", fact: "淺藍色讓人覺得清爽！" },
-            { name: "亮綠色", emoji: "💚", lesson: "亮綠色是很鮮艷的綠色！", fact: "亮綠色代表可以通行！" }
-        ]},
-        { name: "形狀遊戲", icon: "📐", items: [
-            { name: "圓形", emoji: "⭕", lesson: "圓形沒有角，圓圓的！球、太陽都是圓形。", fact: "圓形滾得最快！" },
-            { name: "正方形", emoji: "🟥", lesson: "正方形有4條邊，4個角，每邊都一樣長！", fact: "正方形是特別的四邊形！" },
-            { name: "長方形", emoji: "🟦", lesson: "長方形有4條邊，4個角！", fact: "長方形是長方體的「臉」！" },
-            { name: "三角形", emoji: "🔺", lesson: "三角形有3個角，3條邊！", fact: "三角形是最穩固的形狀！" },
-            { name: "五角星", emoji: "⭐", lesson: "星星是五角形的！", fact: "我們看到的星星可能是幾百萬年前的光！" },
-            { name: "愛心形", emoji: "💚", lesson: "愛心代表愛和喜歡！", fact: "愛心是左右對稱的形狀！" },
-            { name: "菱形", emoji: "💎", lesson: "菱形有4條邊，4個角！", fact: "鑽石的切割面很多是菱形！" },
-            { name: "橢圓形", emoji: "🔷", lesson: "橢圓形是拉長的圓形！", fact: "地球其實是橢圓形的！" },
-            { name: "半圓形", emoji: "🩰", lesson: "半圓形是圓形的一半！", fact: "半圓形像一個弓！" },
-            { name: "六角形", emoji: "⬠", lesson: "六角形有6個角，6條邊！", fact: "蜂窩用六角形最省材料！" }
-        ]},
-        { name: "好吃水果", icon: "🍎", items: [
-            { name: "蘋果", emoji: "🍎", lesson: "蘋果是最常見的水果！", fact: "蘋果每年產量超過8000萬噸！" },
-            { name: "香蕉", emoji: "🍌", lesson: "香蕉長在大型草本植物上，不是樹！", fact: "香蕉是草不是樹！" },
-            { name: "葡萄", emoji: "🍇", lesson: "葡萄是一顆一顆長在藤蔓上的水果。", fact: "一串葡萄可能有300顆！" },
-            { name: "橘子", emoji: "🍊", lesson: "橘子是柑橘類水果，維生素C很多！", fact: "橘子的維生素C比檸檬還多！" },
-            { name: "草莓", emoji: "🍓", lesson: "草莓上面的籽是草莓的種子！", fact: "草莓上的籽其實是種子！" },
-            { name: "西瓜", emoji: "🍉", lesson: "西瓜大部分是水，夏天吃最涼爽！", fact: "西瓜92%都是水！" },
-            { name: "鳳梨", emoji: "🍍", lesson: "鳳梨長在地上，葉子很尖！", fact: "鳳梨的國語是鳳梨，台語是王梨！" },
-            { name: "奇異果", emoji: "🥝", lesson: "奇異果原產於中國，叫獼猴桃！", fact: "一天吃2顆就夠一天維生素C！" },
-            { name: "檸檬", emoji: "🍋", lesson: "檸檬很酸，通常用來調味！", fact: "檸檬是檸檬酸構成的！" },
-            { name: "桃子", emoji: "🍑", lesson: "桃子表面有毛，果肉甜美多汁！", fact: "桃子原產於中國，已經種了3000年！" },
-            { name: "芒果", emoji: "🥭", lesson: "芒果是熱帶水果，果肉金黃香甜！", fact: "芒果是水果之王！" },
-            { name: "櫻桃", emoji: "🍒", lesson: "櫻桃小小的，紅紅的！", fact: "櫻桃價錢很貴！" },
-            { name: "椰子", emoji: "🥥", lesson: "椰子長在椰子樹上，裡面有甜甜的椰子水！", fact: "椰子水可以解渴！" },
-            { name: "梨子", emoji: "🍐", lesson: "梨子水分很多，吃起來脆脆的！", fact: "梨子煮冰糖對喉嚨好！" },
-            { name: "芭樂", emoji: "🥭", lesson: "芭樂是台灣常見的水果，維生素C很多！", fact: "芭樂籽也可以吃！" }
-        ]},
-        { name: "經典兒歌", icon: "🎵", items: [
-            { name: "小星星", emoji: "⭐", lesson: "【小星星】一閃一閃亮晶晶，滿天都是小星星！", fact: "晚上看星星！" },
-            { name: "兩隻老虎", emoji: "🐯", lesson: "【兩隻老虎】兩隻老虎，兩隻老虎，跑得快，跑得快！", fact: "唱給爸媽聽！" },
-            { name: "小雞叫", emoji: "🐤", lesson: "【小雞叫】小小雞嘰嘰嘰，跟在媽媽後面跑！", fact: "小小雞會自己找蟲吃！" },
-            { name: "快樂歌", emoji: "🎶", lesson: "【快樂歌】快樂快樂真快樂，唱歌跳舞笑呵呵！", fact: "唱歌讓人開心！" },
-            { name: "搖籃曲", emoji: "🎵", lesson: "【搖籃曲】睡覺覺時間到，小寶貝睡覺覺！", fact: "搖籃曲讓寶寶睡覺！" },
-            { name: "唸謠", emoji: "🎵", lesson: "【數字謠】一二三四五，上山打老虎！", fact: "這是傳統童謠！" }
-        ]}
-    ];
-    
-    let currentCat = 0;
-    let currentIdx = 0;
-    
-    function init() {
-        const container = document.getElementById('categories');
-        categories.forEach((cat, i) => {
-            const div = document.createElement('div');
-            div.className = 'category';
-            div.onclick = () => showCategory(i);
-            div.innerHTML = '<span class="category-icon">' + cat.icon + '</span><h2>' + cat.name + '</h2><p>' + cat.items.length + ' 項</p>';
-            container.appendChild(div);
+    // 處理連結點擊
+    document.querySelectorAll('.menu a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = this.getAttribute('href').substring(1);
+            document.getElementById('home').style.display = 'none';
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(target).classList.add('active');
+            window.scrollTo(0, 0);
         });
-    }
+    });
     
-    function showCategory(i) {
-        currentCat = i;
-        currentIdx = 0;
-        document.getElementById('modal').classList.add('active');
-        updateModal();
-        speak();
-    }
-    
-    function updateModal() {
-        const item = categories[currentCat].items[currentIdx];
-        document.getElementById('modalName').textContent = item.name;
-        document.getElementById('modalLesson').textContent = item.lesson + ' ' + item.fact;
-        document.querySelector('.modal-emoji').textContent = item.emoji;
-        document.getElementById('counter').textContent = (currentIdx + 1) + ' / ' + categories[currentCat].items.length;
-    }
-    
-    function nextItem() {
-        const len = categories[currentCat].items.length;
-        currentIdx = (currentIdx + 1) % len;
-        updateModal();
-        speak();
-    }
-    
-    function prevItem() {
-        const len = categories[currentCat].items.length;
-        currentIdx = (currentIdx - 1 + len) % len;
-        updateModal();
-        speak();
-    }
-    
-    function closeModal() {
-        document.getElementById('modal').classList.remove('active');
-    }
-    
-    function speak() {
-        const item = categories[currentCat].items[currentIdx];
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(item.name + '！' + item.lesson);
-            u.lang = 'zh-TW';
-            window.speechSynthesis.speak(u);
-        }
-    }
-    
-    init();
+    // 處理回首頁
+    document.querySelectorAll('.back a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('home').style.display = 'grid';
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            window.scrollTo(0, 0);
+        });
+    });
     </script>
 </body>
 </html>
