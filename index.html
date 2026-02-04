@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎈 小朋友天地</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #FFE5E5 0%, #E5F0FF 50%, #E5FFE5 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(180deg, #FFD93D 0%, #FF6B6B 100%);
+            border-radius: 0 0 30px 30px;
+        }
+        
+        .header h1 {
+            font-size: clamp(36px, 8vw, 64px);
+            color: #fff;
+            text-shadow: 3px 3px 0 #FF6B6B;
+            animation: bounce 2s ease infinite;
+        }
+        
+        .header p {
+            font-size: clamp(18px, 4vw, 28px);
+            color: #fff;
+            margin-top: 10px;
+        }
+        
+        /* Categories */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 30px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .category {
+            background: #fff;
+            border-radius: 24px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .category:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .category:active {
+            transform: scale(0.95);
+        }
+        
+        .category-icon {
+            font-size: clamp(60px, 15vw, 100px);
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .category h2 {
+            font-size: clamp(24px, 5vw, 36px);
+            color: #333;
+            font-weight: 700;
+        }
+        
+        .category p {
+            font-size: clamp(14px, 3vw, 20px);
+            color: #888;
+            margin-top: 8px;
+        }
+        
+        /* Animal Colors */
+        .category:nth-child(1) { background: linear-gradient(135deg, #FFE5B4, #FFD700); }
+        .category:nth-child(2) { background: linear-gradient(135deg, #E5FFE5, #90EE90); }
+        .category:nth-child(3) { background: linear-gradient(135deg, #E5F0FF, #87CEEB); }
+        .category:nth-child(4) { background: linear-gradient(135deg, #FFE5E5, #FFB6C1); }
+        .category:nth-child(5) { background: linear-gradient(135deg, #F5E5FF, #DDA0DD); }
+        .category:nth-child(6) { background: linear-gradient(135deg, #FFE5D4, #FFA07A); }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .modal-emoji {
+            font-size: clamp(100px, 25vw, 200px);
+            animation: bounce 1s ease infinite;
+            cursor: pointer;
+        }
+        
+        .modal-emoji:active {
+            transform: scale(0.9);
+        }
+        
+        .modal-name {
+            font-size: clamp(36px, 8vw, 64px);
+            color: #fff;
+            margin-top: 20px;
+            font-weight: 700;
+        }
+        
+        .modal-close {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+            background: rgba(255,255,255,0.2);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            font-size: clamp(14px, 3vw, 20px);
+        }
+        
+        /* Animations */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🎈 小朋友天地</h1>
+        <p>點一點，玩一玩！</p>
+    </header>
+    
+    <div class="categories">
+        <div class="category" onclick="showModal(0, 0)">
+            <span class="category-icon">🦁</span>
+            <h2>動物</h2>
+            <p>汪汪！喵喵！</p>
+        </div>
+        
+        <div class="category" onclick="showModal(1, 0)">
+            <span class="category-icon">🔢</span>
+            <h2>數字</h2>
+            <p>1、2、3、4、5</p>
+        </div>
+        
+        <div class="category" onclick="showModal(2, 0)">
+            <span class="category-icon">🌈</span>
+            <h2>顏色</h2>
+            <p>紅、藍、綠、黃</p>
+        </div>
+        
+        <div class="category" onclick="showModal(3, 0)">
+            <span class="category-icon">⭐</span>
+            <h2>形狀</h2>
+            <p>圓形、正方形</p>
+        </div>
+        
+        <div class="category" onclick="showModal(4, 0)">
+            <span class="category-icon">🍎</span>
+            <h2>水果</h2>
+            <p>蘋果、香蕉、葡萄</p>
+        </div>
+        
+        <div class="category" onclick="showModal(5, 0)">
+            <span class="category-icon">🎵</span>
+            <h2>兒歌</h2>
+            <p>小星星、兩隻老虎</p>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>👶 適合 2-3 歲小朋友 👶</p>
+    </footer>
+    
+    <!-- Modal -->
+    <div class="modal" id="modal" onclick="closeModal()">
+        <div class="modal-close">✕</div>
+        <div class="modal-content">
+            <div class="modal-emoji" id="modalEmoji">🦁</div>
+            <div class="modal-name" id="modalName">獅子</div>
+        </div>
+    </div>
+    
+    <script>
+        const data = {
+            animals: [
+                { emoji: '🦁', name: '獅子' },
+                { emoji: '🐯', name: '老虎' },
+                { emoji: '🐘', name: '大象' },
+                { emoji: '🐵', name: '猴子' },
+                { emoji: '🐶', name: '小狗' },
+                { emoji: '🐱', name: '小貓' },
+                { emoji: '🐰', name: '兔子' },
+                { emoji: '🐼', name: '熊貓' }
+            ],
+            numbers: [
+                { emoji: '1️⃣', name: '一' },
+                { emoji: '2️⃣', name: '二' },
+                { emoji: '3️⃣', name: '三' },
+                { emoji: '4️⃣', name: '四' },
+                { emoji: '5️⃣', name: '五' },
+                { emoji: '6️⃣', name: '六' },
+                { emoji: '7️⃣', name: '七' },
+                { emoji: '8️⃣', name: '八' },
+                { emoji: '9️⃣', name: '九' },
+                { emoji: '🔟', name: '十' }
+            ],
+            colors: [
+                { emoji: '🔴', name: '紅色' },
+                { emoji: '🔵', name: '藍色' },
+                { emoji: '🟢', name: '綠色' },
+                { emoji: '🟡', name: '黃色' },
+                { emoji: '🟠', name: '橙色' },
+                { emoji: '🟣', name: '紫色' }
+            ],
+            shapes: [
+                { emoji: '⭕', name: '圓形' },
+                { emoji: '🟥', name: '正方形' },
+                { emoji: '🔺', name: '三角形' },
+                { emoji: '⭐', name: '星星' },
+                { emoji: '💟', name: '愛心' }
+            ],
+            fruits: [
+                { emoji: '🍎', name: '蘋果' },
+                { emoji: '🍌', name: '香蕉' },
+                { emoji: '🍇', name: '葡萄' },
+                { emoji: '🍊', name: '橘子' },
+                { emoji: '🍓', name: '草莓' },
+                { emoji: '🍉', name: '西瓜' }
+            ],
+            songs: [
+                { emoji: '⭐', name: '小星星' },
+                { emoji: '🐯', name: '兩隻老虎' },
+                { emoji: '🔄', name: '小星星' },
+                { emoji: '🐣', name: '小雞叫' }
+            ]
+        };
+        
+        let currentCategory = 0;
+        let currentIndex = 0;
+        
+        function showModal(category, index) {
+            currentCategory = category;
+            currentIndex = index;
+            
+            const categories = ['animals', 'numbers', 'colors', 'shapes', 'fruits', 'songs'];
+            const categoryName = ['動物', '數字', '顏色', '形狀', '水果', '兒歌'];
+            
+            const item = data[categories[category]][index];
+            document.getElementById('modalEmoji').textContent = item.emoji;
+            document.getElementById('modalName').textContent = item.name;
+            document.getElementById('modal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+        
+        // Click to next
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this || e.target.classList.contains('modal-content')) {
+                currentIndex = (currentIndex + 1) % data[['animals', 'numbers', 'colors', 'shapes', 'fruits', 'songs'][currentCategory]].length;
+                showModal(currentCategory, currentIndex);
+            }
+        });
+    </script>
+</body>
+</html>
